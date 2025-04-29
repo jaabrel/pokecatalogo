@@ -11,6 +11,12 @@ public class Pokemon
     [Display(Name = "Nome")]
     public string Name { get; set; }
     
-    [Display(Name = "Número da Pokédex")]
-    public int NumeroPokedex { get; set; }
+    public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
+    public ICollection<PokemonTipo> PokemonTipos { get; set; }
+    public ICollection<PokemonHabilidades> PokemonHabilidades { get; set; }
+    
+    public int LocalizacaoId { get; set; }
+    public Localizacao Localizacao { get; set; }
+    
+    public ICollection<Evolucao> Evolucoes { get; set; }
 }
