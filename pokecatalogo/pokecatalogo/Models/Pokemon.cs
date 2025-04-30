@@ -9,7 +9,7 @@ public class Pokemon
     public int Id { get; set; }
     
     [Display(Name = "Nome")]
-    public string Name { get; set; }
+    public string Nome { get; set; }
     
     public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
     public ICollection<PokemonTipo> PokemonTipos { get; set; }
