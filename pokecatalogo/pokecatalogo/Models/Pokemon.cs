@@ -13,10 +13,9 @@ public class Pokemon
     
     public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
     public ICollection<PokemonTipo> PokemonTipos { get; set; }
-    public ICollection<PokemonHabilidades> PokemonHabilidades { get; set; }
-    
-    public int LocalizacaoId { get; set; }
-    public Localizacao Localizacao { get; set; }
-    
+    public ICollection<PokemonHabilidade> PokemonHabilidades { get; set; }
     public ICollection<Evolucao> Evolucoes { get; set; }
+    public ICollection<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
+    
+    
 }

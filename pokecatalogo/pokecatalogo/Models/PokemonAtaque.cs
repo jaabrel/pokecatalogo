@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pokecatalogo.Models;
 
-public class PokemonHabilidade
+public class PokemonAtaque
 {
     [Display(Name = "Pokemon")]
     [ForeignKey(nameof(Pokemon))]
@@ -11,9 +11,9 @@ public class PokemonHabilidade
     
     public Pokemon Pokemon { get; set; }
     
-    [Display(Name = "Habilidade")]
-    [ForeignKey(nameof(Habilidade))]
-    public int HabilidadeFk { get; set; }
+    [Display(Name = "Ataque")]
+    [ForeignKey(nameof(Ataque))]
+    public int AtaqueFk { get; set; }
     
-    public Habilidade Habilidade { get; set; }
+    public Ataque Ataque { get; set; }
 }
