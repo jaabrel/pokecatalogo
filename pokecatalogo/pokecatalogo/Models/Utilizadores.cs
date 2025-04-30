@@ -5,5 +5,5 @@ namespace pokecatalogo.Models;
 
 public class Utilizadores
 {
-    
+    public int Id { get; set; }
 }

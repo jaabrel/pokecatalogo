@@ -8,5 +8,5 @@ public class Jogo
     public int Id { get; set; }
     public string Nome { get; set; }
     
-    public ICollection<LocalizacaoJogo> Localizacao  { get; set; }
+    public ICollection<LocalizacaoJogo> LocalizacaoJogos  { get; set; }
 }
