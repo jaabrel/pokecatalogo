@@ -6,7 +6,10 @@ namespace pokecatalogo.Models;
 public class Ataque
 {
     public int Id { get; set; }
+    
     public string Nome { get; set; }
+    
+    public string Categoria { get; set; }
     
     [Display(Name = "Tipo")]
     [ForeignKey(nameof(Tipo))]
