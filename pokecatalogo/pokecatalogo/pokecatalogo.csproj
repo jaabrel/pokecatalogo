@@ -21,4 +21,11 @@
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Areas\UtilizadoresController\Controllers\" />
+      <Folder Include="Areas\UtilizadoresController\Data\" />
+      <Folder Include="Areas\UtilizadoresController\Models\" />
+      <Folder Include="Areas\UtilizadoresController\Views\" />
+    </ItemGroup>
+
 </Project>
