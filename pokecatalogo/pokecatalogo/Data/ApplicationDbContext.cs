@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using pokecatalogo.Models;
 
@@ -14,10 +15,33 @@ public class ApplicationDbContext : IdentityDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole { Id = "a", Name = "Administrador", NormalizedName = "ADMINISTRADOR"});
+
+        var hasher = new PasswordHasher<IdentityUser>();
+        modelBuilder.Entity<IdentityUser>().HasData(
+            new IdentityUser
+            {
+                Id = "admin",
+                UserName = "admin@mail.pt",
+                NormalizedUserName = "ADMIN@MAIL.PT",
+                Email = "admin@mail.pt",
+                NormalizedEmail = "ADMIN@MAIL.PT",
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                PasswordHash = hasher.HashPassword(null, "Aa0_aa")
+            }
+        );
+
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+            new IdentityUserRole<string> { UserId = "admin", RoleId = "a" });
         
         modelBuilder.Entity<LocalizacaoJogo>().HasKey(lg => new { lg.LocalizacaoFk, lg.JogoFk });
         
         modelBuilder.Entity<PokemonAtaque>().HasKey(pa => new { pa.PokemonFk, pa.AtaqueFk });
+        modelBuilder.Entity<PokemonEquipa>().HasKey(pe => pe.Id);
         
         modelBuilder.Entity<PokemonHabilidade>().HasKey(ph => new { ph.PokemonFk, ph.HabilidadeFk });
         
@@ -92,6 +116,8 @@ public class ApplicationDbContext : IdentityDbContext
     
     public DbSet<PokemonAtaque> PokemonAtaques { get; set; }
     
+    public DbSet<PokemonEquipa> PokemonEquipas { get; set; }
+    
     public DbSet<PokemonHabilidade> PokemonHabilidades { get; set; }
     
     public DbSet<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
@@ -99,5 +125,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Tipo> Tipos { get; set; }
     
     public DbSet<Utilizadores> Utilizadores { get; set; }
+
+public DbSet<pokecatalogo.Models.Equipa> Equipa { get; set; }
     
 }

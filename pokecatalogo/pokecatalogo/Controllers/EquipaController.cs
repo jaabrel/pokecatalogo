@@ -10,22 +10,23 @@ using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
-    public class UtilizadoresControler : Controller
+    public class EquipaController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UtilizadoresControler(ApplicationDbContext context)
+        public EquipaController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: UtilizadoresControler
+        // GET: Equipa
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Utilizadores.ToListAsync());
+            var applicationDbContext = _context.Equipa.Include(e => e.Dono);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: UtilizadoresControler/Details/5
+        // GET: Equipa/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var utilizador = await _context.Utilizadores
+            var equipa = await _context.Equipa
+                .Include(e => e.Dono)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizador == null)
+            if (equipa == null)
             {
                 return NotFound();
             }
 
-            return View(utilizador);
+            return View(equipa);
         }
 
-        // GET: UtilizadoresControler/Create
+        // GET: Equipa/Create
         public IActionResult Create()
         {
+            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email");
             return View();
         }
 
-        // POST: UtilizadoresControler/Create
+        // POST: Equipa/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Create([Bind("Id,NomeEquipa,CreatedDate,DonoFk")] Equipa equipa)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(utilizadores);
+                _context.Add(equipa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(utilizadores);
+            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email", equipa.DonoFk);
+            return View(equipa);
         }
 
-        // GET: UtilizadoresControler/Edit/5
+        // GET: Equipa/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,25 +77,23 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var utilizadores = await _context.Utilizadores.FindAsync(id);
-            if (utilizadores == null)
+            var equipa = await _context.Equipa.FindAsync(id);
+            if (equipa == null)
             {
                 return NotFound();
             }
-
-            HttpContext.Session.SetInt32("utilizadorId", utilizadores.Id);
-            
-            return View(utilizadores);
+            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email", equipa.DonoFk);
+            return View(equipa);
         }
 
-        // POST: UtilizadoresControler/Edit/5
+        // POST: Equipa/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute]int id, [Bind("Id,Nome,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NomeEquipa,CreatedDate,DonoFk")] Equipa equipa)
         {
-            if (id != utilizadores.Id)
+            if (id != equipa.Id)
             {
                 return NotFound();
             }
@@ -100,22 +102,12 @@ namespace pokecatalogo.Controllers
             {
                 try
                 {
-                    var utilizadorDaSessao = HttpContext.Session.GetInt32("utilizadorId");
-
-                    if (utilizadorDaSessao != id)
-                    {
-                        ModelState.AddModelError("", "O id do Utilizador que está a tentar editar não é o que tem a sessão iniciada");
-                        return View(utilizadores);
-                    }
-                    
-                    _context.Update(utilizadores);
+                    _context.Update(equipa);
                     await _context.SaveChangesAsync();
-
-                    HttpContext.Session.SetInt32("utilizadorId", 0);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UtilizadoresExists(utilizadores.Id))
+                    if (!EquipaExists(equipa.Id))
                     {
                         return NotFound();
                     }
@@ -126,10 +118,11 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(utilizadores);
+            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email", equipa.DonoFk);
+            return View(equipa);
         }
 
-        // GET: UtilizadoresControler/Delete/5
+        // GET: Equipa/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,45 +130,35 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var utilizadores = await _context.Utilizadores
+            var equipa = await _context.Equipa
+                .Include(e => e.Dono)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizadores == null)
+            if (equipa == null)
             {
                 return NotFound();
             }
 
-            HttpContext.Session.SetInt32("utilizadorId", utilizadores.Id);
-
-            return View(utilizadores);
+            return View(equipa);
         }
 
-        // POST: UtilizadoresControler/Delete/5
+        // POST: Equipa/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var utilizadores = await _context.Utilizadores.FindAsync(id);
-            if (utilizadores != null)
+            var equipa = await _context.Equipa.FindAsync(id);
+            if (equipa != null)
             {
-
-                var utilizadorDaSessao = HttpContext.Session.GetInt32("utilizadorId");
-
-                if (utilizadorDaSessao != id)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                _context.Utilizadores.Remove(utilizadores);
+                _context.Equipa.Remove(equipa);
             }
 
             await _context.SaveChangesAsync();
-
-            HttpContext.Session.SetInt32("utilizadorId", 0);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UtilizadoresExists(int id)
+        private bool EquipaExists(int id)
         {
-            return _context.Utilizadores.Any(e => e.Id == id);
+            return _context.Equipa.Any(e => e.Id == id);
         }
     }
 }
