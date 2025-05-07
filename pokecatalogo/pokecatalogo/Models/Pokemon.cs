@@ -5,9 +5,11 @@ namespace pokecatalogo.Models;
 
 public class Pokemon
 {
-    [Key] public int Id { get; set; }
+    [Key] 
+    public int Id { get; set; }
 
-    [Display(Name = "Nome")] public string Nome { get; set; }
+    [Display(Name = "Nome")] 
+    public string Nome { get; set; }
 
     [Display(Name = "Tipo Principal")]
     [ForeignKey(nameof(Tipo1))]
@@ -31,3 +33,4 @@ public class Pokemon
     
     public ICollection<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
 }
+
