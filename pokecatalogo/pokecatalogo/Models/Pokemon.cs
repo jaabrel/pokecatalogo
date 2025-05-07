@@ -33,3 +33,4 @@ public class Pokemon
     
     public ICollection<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
 }
+

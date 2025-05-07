@@ -16,7 +16,7 @@ public class Evolucao
     
     [Display(Name = "Evolução")]
     [ForeignKey(nameof(PokemonEvoluido))]
-    public int PokemonFk2 { get; set; }
+    public int? PokemonFk2 { get; set; }
     
-    public Pokemon PokemonEvoluido { get; set; }
+    public Pokemon? PokemonEvoluido { get; set; }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokecatalogo.Data;
 
@@ -10,12 +11,14 @@ using pokecatalogo.Data;
 namespace pokecatalogo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250430111919_Relacoes")]
+    partial class Relacoes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.15");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -219,10 +222,6 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Categoria")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -250,7 +249,7 @@ namespace pokecatalogo.Data.Migrations
                     b.Property<int>("PokemonFk1")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PokemonFk2")
+                    b.Property<int>("PokemonFk2")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -408,10 +407,6 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Fraquezas")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -504,7 +499,9 @@ namespace pokecatalogo.Data.Migrations
 
                     b.HasOne("pokecatalogo.Models.Pokemon", "PokemonEvoluido")
                         .WithMany("FinalEvolucoes")
-                        .HasForeignKey("PokemonFk2");
+                        .HasForeignKey("PokemonFk2")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PokemonEvoluido");
 
