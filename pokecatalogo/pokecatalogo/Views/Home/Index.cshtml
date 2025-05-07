@@ -1,8 +1,25 @@
-﻿@{
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Bem vindo ao PokéCatálogo</h1>
+    
+    <div class="search-container mt-4">
+        <form method="get" asp-page="/Index">
+            <div class="input-group">
+                <input type="text" class="form-control" name="pesquisa" placeholder="Pikachu" />
+                <button class="btn btn-primary" type="submit">Procurar</button>
+            </div> 
+        </form>
+    </div>
 </div>
+
+<div class="pokemon-destaque mt-5">
+    <h2>Pokemon do Dia</h2>
+    <div class="row">
+
+    </div>
+</div>
+
