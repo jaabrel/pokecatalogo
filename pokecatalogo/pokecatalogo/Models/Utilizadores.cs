@@ -17,8 +17,15 @@ public class Utilizadores
     public string Nome { get; set; }
     
     /// <summary>
+    /// Email do Utilizador
+    /// </summary>
+    [Required(ErrorMessage = "É necessário usar um email.")]
+    public string Email { get; set; }
+  
+    /// <summary>
     /// Ligação do utilizador da base de dados criada e da tabela ASPNet Users
     /// </summary>
+    
     [StringLength(50)]
     public string? IdentityUserName { get; set; }
     
