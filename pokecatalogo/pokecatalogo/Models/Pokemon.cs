@@ -12,7 +12,7 @@ public class Pokemon
     public string Nome { get; set; }
     
     public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
-    public ICollection<PokemonTipo> PokemonTipos { get; set; }
+    public ICollection<Tipo> PokemonTipos { get; set; }
     public ICollection<PokemonHabilidade> PokemonHabilidades { get; set; }
     public ICollection<Evolucao> Evolucoes { get; set; }
     public ICollection<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
