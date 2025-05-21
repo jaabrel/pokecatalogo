@@ -64,7 +64,7 @@ namespace pokecatalogo.Controllers
             }
             return View(utilizadores);
         }
-
+        
         // GET: UtilizadoresControler/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
