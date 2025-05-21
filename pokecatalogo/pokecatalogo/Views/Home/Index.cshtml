@@ -3,23 +3,42 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bem vindo ao PokéCatálogo</h1>
+<div class="text-center" xmlns="http://www.w3.org/1999/html">
+    <header class="pokebola-header">
+        <div class="pokebola-top"></div>
+        
+        <h1 class="display-4">Bem vindo ao PokéCatálogo</h1>
+    </header>
+    <section class="pesquisa-section mb-5">
+    <div class="pesquisa-container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form method="get" asp-page="/Index" class="pokebola-pesquisa">
+                    <div class="input-group">
+                        <input type="text" class="form-control pokebola-pesquisa-input" name="pesquisa" placeholder="Pikachu" required/>
+                        <button class="btn btn-primary pokebola-pesquisa-btn" type="submit">Procurar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </section>
+</div>
     
-    <div class="search-container mt-4">
-        <form method="get" asp-page="/Index">
-            <div class="input-group">
-                <input type="text" class="form-control" name="pesquisa" placeholder="Pikachu" />
-                <button class="btn btn-primary" type="submit">Procurar</button>
-            </div> 
-        </form>
-    </div>
-</div>
 
-<div class="pokemon-destaque mt-5">
-    <h2>Pokemon do Dia</h2>
-    <div class="row">
-
+<section class="pokemon-destaque mt-5">
+    <h2>Pokemon Destaque</h2>
+    <div class="pokemon-destaque-container">
+        <a href="pokemonURL" class="pokemon-destaque-imagem-link">
+        <img src="pokemon.imagemURL" alt="pokemon.name" class="pokemon-imagem-btn" />
+        <div class="pokemon-imagem-hover">
+        <span>Ver Detalhes</span>
+        </div>
+    </a>
+    <div class="pokemon-imagem-caption">
+        <span class="pokemon-destaque-número"></span>  
+        <h3 class="pokemon-destaque-nome">Nome</h3>
     </div>
-</div>
+    </div>
+</section>
 

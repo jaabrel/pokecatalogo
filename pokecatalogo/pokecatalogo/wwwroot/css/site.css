@@ -20,3 +20,22 @@ html {
 body {
   margin-bottom: 60px;
 }
+: root {
+  --pokebola-vermelho: #FF0000;
+  --pokebola-preto: #000000;
+  --pokebola-branco: #FFFFFF;
+}
+
+.pokemon-destaque-container {
+  display: inline-block;
+  text-align: center;
+  margin: 10px;
+  transition: transform 0.3s ease;
+}
+.pokemon-destaque-imagem-link {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 3px solid var(--pokebola-black)
+}

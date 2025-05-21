@@ -6,13 +6,17 @@
     <title>@ViewData["Title"] - pokecatalogo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/pokecatalogo.styles.css" asp-append-version="true"/>
 </head>
-<body>
-<header>
+<body class="tema-pokebola">
+
+<header class="pokebola-header">
+    <div class="pokebola-top"></div>
+    <div class="pokebola-center"></div>
+
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">pokecatalogo</a>
+            <img src="/PokecatáLogo_150x150.png"/>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PokeCatálogo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -37,8 +41,9 @@
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
+<footer class="pokebola-footer border-top footer text-muted">
+    <div class="pokebola-button"></div>
+    <div class="containe py-4">
         &copy; 2025 - pokecatalogo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
