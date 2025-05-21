@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +18,7 @@ namespace pokecatalogo.Controllers
         // GET: Pokemon
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Pokemons.Include(p => p.Tipo1).Include(p => p.Tipo2);
+            var applicationDbContext = _context.Pokemons.Include(p => p.TipoPrincipal).Include(p => p.TipoSecundario);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,8 +31,8 @@ namespace pokecatalogo.Controllers
             }
 
             var pokemon = await _context.Pokemons
-                .Include(p => p.Tipo1)
-                .Include(p => p.Tipo2)
+                .Include(p => p.TipoPrincipal)
+                .Include(p => p.TipoSecundario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pokemon == null)
             {
@@ -48,11 +43,10 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Pokemon/Create
-        [Authorize]
         public IActionResult Create()
         {
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id");
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id");
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Cor");
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Cor");
             return View();
         }
 
@@ -61,7 +55,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Tipo1Fk,Tipo2Fk")] Pokemon pokemon)
+        public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Tipo1Fk,Tipo2Fk,Imagem,ImagemShiny")] Pokemon pokemon)
         {
             if (ModelState.IsValid)
             {
@@ -69,8 +63,8 @@ namespace pokecatalogo.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Cor", pokemon.Tipo1Fk);
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Cor", pokemon.Tipo2Fk);
             return View(pokemon);
         }
 
@@ -87,8 +81,8 @@ namespace pokecatalogo.Controllers
             {
                 return NotFound();
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Cor", pokemon.Tipo1Fk);
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Cor", pokemon.Tipo2Fk);
             return View(pokemon);
         }
 
@@ -97,7 +91,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Tipo1Fk,Tipo2Fk")] Pokemon pokemon)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Tipo1Fk,Tipo2Fk,Imagem,ImagemShiny")] Pokemon pokemon)
         {
             if (id != pokemon.Id)
             {
@@ -124,8 +118,8 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Cor", pokemon.Tipo1Fk);
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Cor", pokemon.Tipo2Fk);
             return View(pokemon);
         }
 
@@ -138,8 +132,8 @@ namespace pokecatalogo.Controllers
             }
 
             var pokemon = await _context.Pokemons
-                .Include(p => p.Tipo1)
-                .Include(p => p.Tipo2)
+                .Include(p => p.TipoPrincipal)
+                .Include(p => p.TipoSecundario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pokemon == null)
             {
