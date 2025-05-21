@@ -544,24 +544,24 @@ namespace pokecatalogo.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
+                    
+                    b.Property<int>("Nome")
+                        .HasColumnType("INTEGER");
+                    
                     b.Property<string>("Cor")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Efetivo")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Fraquezas")
                         .HasColumnType("INTEGER");
-
-                    b.Property<int>("Imunidades")
+                    
+                    b.Property<int?>("Resistências")
                         .HasColumnType("INTEGER");
-
-                    b.Property<int>("Nome")
+                    
+                    b.Property<int?>("Imunidades")
                         .HasColumnType("INTEGER");
-
-                    b.Property<int>("Resistências")
+                    
+                    b.Property<int?>("Efetivo")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
