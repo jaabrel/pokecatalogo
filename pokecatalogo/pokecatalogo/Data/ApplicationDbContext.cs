@@ -46,6 +46,8 @@ public class ApplicationDbContext : IdentityDbContext
         modelBuilder.Entity<PokemonHabilidade>().HasKey(ph => new { ph.PokemonFk, ph.HabilidadeFk });
         
         modelBuilder.Entity<PokemonLocalizacao>().HasKey(pl => new { pl.PokemonFk, pl.LocalizacaoFk });
+
+        modelBuilder.Entity<PokemonStats>().HasKey(ps => new { ps.PokemonFk });
         
         modelBuilder.Entity<LocalizacaoJogo>().HasKey(lj => new { lj.LocalizacaoFk, lj.JogoFk });
         
@@ -68,7 +70,7 @@ public class ApplicationDbContext : IdentityDbContext
             .HasOne<Pokemon>(ph => ph.Pokemon)
             .WithMany(p => p.PokemonHabilidades)
             .HasForeignKey(ph => ph.PokemonFk);
-
+        
         modelBuilder.Entity<Evolucao>()
             .HasOne<Pokemon>(e => e.PokemonOrigem)
             .WithMany(p => p.OrigemEvolucoes)
@@ -121,6 +123,8 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<PokemonHabilidade> PokemonHabilidades { get; set; }
     
     public DbSet<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
+    
+    public DbSet<PokemonStats> PokemonStats { get; set; }
     
     public DbSet<Tipo> Tipos { get; set; }
     

@@ -7,13 +7,25 @@ public class PokemonStats
 {
     [Display(Name = "Pokemon")]
     [ForeignKey(nameof(Pokemon))]
-    public int FkPokemon { get; set; }
+    public int PokemonFk { get; set; }
     
+    public Pokemon Pokemon { get; set; }
     
+    [Display(Name = "Pontos de Vida")]
     public int Hp { get; set; }
+    
+    [Display(Name = "Ataque")]
     public int Atk { get; set; }
+    
+    [Display(Name = "Defesa")]
     public int Def { get; set; }
+    
+    [Display(Name = "Ataque Especial")]
     public int SpA { get; set; }
+    
+    [Display(Name = "Defesa Especial")]
     public int SpD { get; set; }
+    
+    [Display(Name = "Velocidade")]
     public int Speed { get; set; }
 }
