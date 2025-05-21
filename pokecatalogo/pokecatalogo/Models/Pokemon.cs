@@ -10,7 +10,15 @@ public class Pokemon
 
     [Display(Name = "Nome")] 
     public string Nome { get; set; }
+    
+    public string DescricaoPokedex { get; set; }
+    
+    public float Altura { get; set; }
+    
+    public float Peso { get; set; }
 
+    public string Especie { get; set; }
+    
     [Display(Name = "Tipo Principal")]
     [ForeignKey(nameof(Tipo1))]
     public int Tipo1Fk { get; set; }
@@ -24,6 +32,8 @@ public class Pokemon
     public Tipo Tipo2 { get; set; }
 
     public string Imagem { get; set; }
+    
+    public string ImagemShiny { get; set; }
     
     public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
     

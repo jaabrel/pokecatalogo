@@ -10,23 +10,22 @@ using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
-    public class AtaqueController : Controller
+    public class TipoController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AtaqueController(ApplicationDbContext context)
+        public TipoController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Ataque
+        // GET: Tipo
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Ataques.Include(a => a.Tipo);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Tipos.ToListAsync());
         }
 
-        // GET: Ataque/Details/5
+        // GET: Tipo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var ataque = await _context.Ataques
-                .Include(a => a.Tipo)
+            var tipo = await _context.Tipos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ataque == null)
+            if (tipo == null)
             {
                 return NotFound();
             }
 
-            return View(ataque);
+            return View(tipo);
         }
 
-        // GET: Ataque/Create
+        // GET: Tipo/Create
         public IActionResult Create()
         {
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id");
             return View();
         }
 
-        // POST: Ataque/Create
+        // POST: Tipo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Categoria,TipoFk")] Ataque ataque)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Cor,Fraquezas,Resistências,Imunidades,Efetivo")] Tipo tipo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ataque);
+                _context.Add(tipo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
-            return View(ataque);
+            return View(tipo);
         }
 
-        // GET: Ataque/Edit/5
+        // GET: Tipo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,26 +73,22 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var ataque = await _context.Ataques.FindAsync(id);
-            
-            HttpContext.Session.SetInt32("ataqueId", ataque.Id);
-            
-            if (ataque == null)
+            var tipo = await _context.Tipos.FindAsync(id);
+            if (tipo == null)
             {
                 return NotFound();
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
-            return View(ataque);
+            return View(tipo);
         }
 
-        // POST: Ataque/Edit/5
+        // POST: Tipo/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Categoria,TipoFk")] Ataque ataque)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cor,Fraquezas,Resistências,Imunidades,Efetivo")] Tipo tipo)
         {
-            if (id != ataque.Id)
+            if (id != tipo.Id)
             {
                 return NotFound();
             }
@@ -105,12 +97,12 @@ namespace pokecatalogo.Controllers
             {
                 try
                 {
-                    _context.Update(ataque);
+                    _context.Update(tipo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AtaqueExists(ataque.Id))
+                    if (!TipoExists(tipo.Id))
                     {
                         return NotFound();
                     }
@@ -121,11 +113,10 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
-            return View(ataque);
+            return View(tipo);
         }
 
-        // GET: Ataque/Delete/5
+        // GET: Tipo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,35 +124,34 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var ataque = await _context.Ataques
-                .Include(a => a.Tipo)
+            var tipo = await _context.Tipos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ataque == null)
+            if (tipo == null)
             {
                 return NotFound();
             }
 
-            return View(ataque);
+            return View(tipo);
         }
 
-        // POST: Ataque/Delete/5
+        // POST: Tipo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ataque = await _context.Ataques.FindAsync(id);
-            if (ataque != null)
+            var tipo = await _context.Tipos.FindAsync(id);
+            if (tipo != null)
             {
-                _context.Ataques.Remove(ataque);
+                _context.Tipos.Remove(tipo);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AtaqueExists(int id)
+        private bool TipoExists(int id)
         {
-            return _context.Ataques.Any(e => e.Id == id);
+            return _context.Tipos.Any(e => e.Id == id);
         }
     }
 }

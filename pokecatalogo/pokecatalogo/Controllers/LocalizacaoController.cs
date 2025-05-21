@@ -10,23 +10,22 @@ using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
-    public class AtaqueController : Controller
+    public class LocalizacaoController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AtaqueController(ApplicationDbContext context)
+        public LocalizacaoController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Ataque
+        // GET: Localizacao
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Ataques.Include(a => a.Tipo);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Localizacoes.ToListAsync());
         }
 
-        // GET: Ataque/Details/5
+        // GET: Localizacao/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var ataque = await _context.Ataques
-                .Include(a => a.Tipo)
+            var localizacao = await _context.Localizacoes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ataque == null)
+            if (localizacao == null)
             {
                 return NotFound();
             }
 
-            return View(ataque);
+            return View(localizacao);
         }
 
-        // GET: Ataque/Create
+        // GET: Localizacao/Create
         public IActionResult Create()
         {
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id");
             return View();
         }
 
-        // POST: Ataque/Create
+        // POST: Localizacao/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Categoria,TipoFk")] Ataque ataque)
+        public async Task<IActionResult> Create([Bind("Id,Nome")] Localizacao localizacao)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ataque);
+                _context.Add(localizacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
-            return View(ataque);
+            return View(localizacao);
         }
 
-        // GET: Ataque/Edit/5
+        // GET: Localizacao/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,26 +73,22 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var ataque = await _context.Ataques.FindAsync(id);
-            
-            HttpContext.Session.SetInt32("ataqueId", ataque.Id);
-            
-            if (ataque == null)
+            var localizacao = await _context.Localizacoes.FindAsync(id);
+            if (localizacao == null)
             {
                 return NotFound();
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
-            return View(ataque);
+            return View(localizacao);
         }
 
-        // POST: Ataque/Edit/5
+        // POST: Localizacao/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Categoria,TipoFk")] Ataque ataque)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Localizacao localizacao)
         {
-            if (id != ataque.Id)
+            if (id != localizacao.Id)
             {
                 return NotFound();
             }
@@ -105,12 +97,12 @@ namespace pokecatalogo.Controllers
             {
                 try
                 {
-                    _context.Update(ataque);
+                    _context.Update(localizacao);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AtaqueExists(ataque.Id))
+                    if (!LocalizacaoExists(localizacao.Id))
                     {
                         return NotFound();
                     }
@@ -121,11 +113,10 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
-            return View(ataque);
+            return View(localizacao);
         }
 
-        // GET: Ataque/Delete/5
+        // GET: Localizacao/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,35 +124,34 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var ataque = await _context.Ataques
-                .Include(a => a.Tipo)
+            var localizacao = await _context.Localizacoes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ataque == null)
+            if (localizacao == null)
             {
                 return NotFound();
             }
 
-            return View(ataque);
+            return View(localizacao);
         }
 
-        // POST: Ataque/Delete/5
+        // POST: Localizacao/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ataque = await _context.Ataques.FindAsync(id);
-            if (ataque != null)
+            var localizacao = await _context.Localizacoes.FindAsync(id);
+            if (localizacao != null)
             {
-                _context.Ataques.Remove(ataque);
+                _context.Localizacoes.Remove(localizacao);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AtaqueExists(int id)
+        private bool LocalizacaoExists(int id)
         {
-            return _context.Ataques.Any(e => e.Id == id);
+            return _context.Localizacoes.Any(e => e.Id == id);
         }
     }
 }

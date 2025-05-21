@@ -130,6 +130,6 @@ public class ApplicationDbContext : IdentityDbContext
     
     public DbSet<Utilizadores> Utilizadores { get; set; }
 
-public DbSet<pokecatalogo.Models.Equipa> Equipa { get; set; }
+    public DbSet<pokecatalogo.Models.Equipa> Equipa { get; set; }
     
 }

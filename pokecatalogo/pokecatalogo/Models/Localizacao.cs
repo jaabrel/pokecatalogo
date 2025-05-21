@@ -6,6 +6,7 @@ namespace pokecatalogo.Models;
 public class Localizacao
 {
     public int Id { get; set; }
+    
     public string Nome { get; set; }
     
     public ICollection<Pokemon> Pokemons { get; set; }

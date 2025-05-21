@@ -11,6 +11,16 @@ public class Ataque
     
     public string Categoria { get; set; }
     
+    public string Descricao { get; set; }
+    
+    public int Dano { get; set; }
+    
+    public int Precisao { get; set; }
+    
+    public int PP { get; set; }
+    
+    public int Prioridade { get; set; }
+    
     [Display(Name = "Tipo")]
     [ForeignKey(nameof(Tipo))]
     public int TipoFk { get; set; }
