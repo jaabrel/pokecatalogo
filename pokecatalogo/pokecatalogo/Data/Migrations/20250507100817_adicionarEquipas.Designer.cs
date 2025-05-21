@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokecatalogo.Data;
 
@@ -10,9 +11,11 @@ using pokecatalogo.Data;
 namespace pokecatalogo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250507100817_adicionarEquipas")]
+    partial class adicionarEquipas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.15");
@@ -142,15 +145,15 @@ namespace pokecatalogo.Data.Migrations
                         {
                             Id = "admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d9b5647d-e552-47c6-8bc9-a13f4f442293",
+                            ConcurrencyStamp = "1e5b09c0-155a-4646-a0d1-467098cbe431",
                             Email = "admin@mail.pt",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.PT",
                             NormalizedUserName = "ADMIN@MAIL.PT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP4SkmPxrpLaIlDUVcGOfbH6mKX/JA+MJ+c0zyNUGPvkm1uG9Ll9iQBxoEXU5U2cJw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEN2mzHYdgesYdNI5fPQ8my6CN2jPW46r7oVTI04RYgdQg7Sh721My2ZEyYabHYWF7w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e3379938-ad6c-4865-9a74-feb17f7e92a6",
+                            SecurityStamp = "47dbedeb-a15f-4825-8eed-6f92f943382c",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.pt"
                         });
@@ -471,34 +474,6 @@ namespace pokecatalogo.Data.Migrations
                     b.ToTable("PokemonLocalizacoes");
                 });
 
-            modelBuilder.Entity("pokecatalogo.Models.PokemonStats", b =>
-                {
-                    b.Property<int>("PokemonFk")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Atk")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Def")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Hp")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SpA")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SpD")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Speed")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PokemonFk");
-
-                    b.ToTable("PokemonStats");
-                });
-
             modelBuilder.Entity("pokecatalogo.Models.Tipo", b =>
                 {
                     b.Property<int>("Id")
@@ -756,17 +731,6 @@ namespace pokecatalogo.Data.Migrations
                     b.Navigation("Pokemon");
                 });
 
-            modelBuilder.Entity("pokecatalogo.Models.PokemonStats", b =>
-                {
-                    b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
-                        .WithMany("PokemonStats")
-                        .HasForeignKey("PokemonFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pokemon");
-                });
-
             modelBuilder.Entity("pokecatalogo.Models.Ataque", b =>
                 {
                     b.Navigation("PokemonAtaques");
@@ -805,8 +769,6 @@ namespace pokecatalogo.Data.Migrations
                     b.Navigation("PokemonHabilidades");
 
                     b.Navigation("PokemonLocalizacoes");
-
-                    b.Navigation("PokemonStats");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.Tipo", b =>

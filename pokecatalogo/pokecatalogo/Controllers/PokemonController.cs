@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,22 +11,23 @@ using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
-    public class UtilizadoresControler : Controller
+    public class PokemonController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UtilizadoresControler(ApplicationDbContext context)
+        public PokemonController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: UtilizadoresControler
+        // GET: Pokemon
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Utilizadores.ToListAsync());
+            var applicationDbContext = _context.Pokemons.Include(p => p.Tipo1).Include(p => p.Tipo2);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: UtilizadoresControler/Details/5
+        // GET: Pokemon/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +35,46 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var utilizador = await _context.Utilizadores
+            var pokemon = await _context.Pokemons
+                .Include(p => p.Tipo1)
+                .Include(p => p.Tipo2)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizador == null)
+            if (pokemon == null)
             {
                 return NotFound();
             }
 
-            return View(utilizador);
+            return View(pokemon);
         }
 
-        // GET: UtilizadoresControler/Create
+        // GET: Pokemon/Create
+        [Authorize]
         public IActionResult Create()
         {
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id");
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id");
             return View();
         }
 
-        // POST: UtilizadoresControler/Create
+        // POST: Pokemon/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Tipo1Fk,Tipo2Fk")] Pokemon pokemon)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(utilizadores);
+                _context.Add(pokemon);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(utilizadores);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            return View(pokemon);
         }
-        
-        // GET: UtilizadoresControler/Edit/5
+
+        // GET: Pokemon/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,25 +82,24 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var utilizadores = await _context.Utilizadores.FindAsync(id);
-            if (utilizadores == null)
+            var pokemon = await _context.Pokemons.FindAsync(id);
+            if (pokemon == null)
             {
                 return NotFound();
             }
-
-            HttpContext.Session.SetInt32("utilizadorId", utilizadores.Id);
-            
-            return View(utilizadores);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            return View(pokemon);
         }
 
-        // POST: UtilizadoresControler/Edit/5
+        // POST: Pokemon/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute]int id, [Bind("Id,Nome,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Tipo1Fk,Tipo2Fk")] Pokemon pokemon)
         {
-            if (id != utilizadores.Id)
+            if (id != pokemon.Id)
             {
                 return NotFound();
             }
@@ -100,22 +108,12 @@ namespace pokecatalogo.Controllers
             {
                 try
                 {
-                    var utilizadorDaSessao = HttpContext.Session.GetInt32("utilizadorId");
-
-                    if (utilizadorDaSessao != id)
-                    {
-                        ModelState.AddModelError("", "O id do Utilizador que está a tentar editar não é o que tem a sessão iniciada");
-                        return View(utilizadores);
-                    }
-                    
-                    _context.Update(utilizadores);
+                    _context.Update(pokemon);
                     await _context.SaveChangesAsync();
-
-                    HttpContext.Session.SetInt32("utilizadorId", 0);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UtilizadoresExists(utilizadores.Id))
+                    if (!PokemonExists(pokemon.Id))
                     {
                         return NotFound();
                     }
@@ -126,10 +124,12 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(utilizadores);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
+            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            return View(pokemon);
         }
 
-        // GET: UtilizadoresControler/Delete/5
+        // GET: Pokemon/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,45 +137,36 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var utilizadores = await _context.Utilizadores
+            var pokemon = await _context.Pokemons
+                .Include(p => p.Tipo1)
+                .Include(p => p.Tipo2)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizadores == null)
+            if (pokemon == null)
             {
                 return NotFound();
             }
 
-            HttpContext.Session.SetInt32("utilizadorId", utilizadores.Id);
-
-            return View(utilizadores);
+            return View(pokemon);
         }
 
-        // POST: UtilizadoresControler/Delete/5
+        // POST: Pokemon/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var utilizadores = await _context.Utilizadores.FindAsync(id);
-            if (utilizadores != null)
+            var pokemon = await _context.Pokemons.FindAsync(id);
+            if (pokemon != null)
             {
-
-                var utilizadorDaSessao = HttpContext.Session.GetInt32("utilizadorId");
-
-                if (utilizadorDaSessao != id)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                _context.Utilizadores.Remove(utilizadores);
+                _context.Pokemons.Remove(pokemon);
             }
 
             await _context.SaveChangesAsync();
-
-            HttpContext.Session.SetInt32("utilizadorId", 0);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UtilizadoresExists(int id)
+        private bool PokemonExists(int id)
         {
-            return _context.Utilizadores.Any(e => e.Id == id);
+            return _context.Pokemons.Any(e => e.Id == id);
         }
     }
 }

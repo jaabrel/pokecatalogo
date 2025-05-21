@@ -23,6 +23,8 @@ public class Pokemon
 
     public Tipo Tipo2 { get; set; }
 
+    public string Imagem { get; set; }
+    
     public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
     
     public ICollection<PokemonHabilidade> PokemonHabilidades { get; set; }
@@ -32,5 +34,9 @@ public class Pokemon
     public ICollection<Evolucao> FinalEvolucoes { get; set; }
     
     public ICollection<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
+    
+    public ICollection<PokemonStats> PokemonStats { get; set; }
+    
+    
 }
 

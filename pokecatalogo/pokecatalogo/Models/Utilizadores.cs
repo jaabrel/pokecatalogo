@@ -28,5 +28,4 @@ public class Utilizadores
     
     [StringLength(50)]
     public string? IdentityUserName { get; set; }
-    
 }

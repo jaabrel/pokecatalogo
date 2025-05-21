@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-pokecatalogo-c1a012e6-e421-4dcd-b17b-dbd6f3e85cc8</UserSecretsId>
     </PropertyGroup>
@@ -19,13 +19,6 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11"/>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Areas\UtilizadoresController\Controllers\" />
-      <Folder Include="Areas\UtilizadoresController\Data\" />
-      <Folder Include="Areas\UtilizadoresController\Models\" />
-      <Folder Include="Areas\UtilizadoresController\Views\" />
     </ItemGroup>
 
 </Project>
