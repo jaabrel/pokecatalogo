@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokecatalogo.Data;
 
@@ -10,9 +11,11 @@ using pokecatalogo.Data;
 namespace pokecatalogo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250521105029_pokestats4")]
+    partial class pokestats4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.15");
@@ -142,15 +145,15 @@ namespace pokecatalogo.Data.Migrations
                         {
                             Id = "admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2e5df5c4-f37f-4224-aee6-9c7510878c6e",
+                            ConcurrencyStamp = "189f03d9-6885-4687-a63a-4593f2ee6bbd",
                             Email = "admin@mail.pt",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.PT",
                             NormalizedUserName = "ADMIN@MAIL.PT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOGKNwrGQm5SdyW1Vd/fK+StOPeH78eJn72QkgJOeD8vtV4ZGqXI5WYBuzKxpA4QTg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB3yepphAoQsC4mMJBWi7AxrWVPxxCsGSP5BdcJAs1KgIfSD+2nch4DRzS63l6Ei+g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eb1cf1a8-9d32-420f-bee8-9c124a1a70c9",
+                            SecurityStamp = "adbd7026-d210-435c-85b3-9d2373f3ec99",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.pt"
                         });

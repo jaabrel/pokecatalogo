@@ -7,32 +7,36 @@ public class Pokemon
 {
     [Key] 
     public int Id { get; set; }
-
-    [Display(Name = "Nome")] 
+    
     public string Nome { get; set; }
     
+    [Display(Name = "Descrição Pokedex")]
     public string DescricaoPokedex { get; set; }
     
     public float Altura { get; set; }
     
     public float Peso { get; set; }
 
+    [Display(Name = "Espécie")]
     public string Especie { get; set; }
     
     [Display(Name = "Tipo Principal")]
-    [ForeignKey(nameof(Tipo1))]
+    [ForeignKey(nameof(TipoPrincipal))]
     public int Tipo1Fk { get; set; }
 
-    public Tipo Tipo1 { get; set; }
+    [Display(Name = "Tipo Principal")]
+    public Tipo TipoPrincipal { get; set; }
 
     [Display(Name = "Tipo Secundário")]
-    [ForeignKey(nameof(Tipo2))]
+    [ForeignKey(nameof(TipoSecundario))]
     public int? Tipo2Fk { get; set; }
 
-    public Tipo Tipo2 { get; set; }
+    [Display(Name = "Tipo Secundário")]
+    public Tipo TipoSecundario { get; set; }
 
     public string Imagem { get; set; }
     
+    [Display(Name = "Imagem Shiny")]
     public string ImagemShiny { get; set; }
     
     public ICollection<PokemonAtaque> PokemonAtaques { get; set; }

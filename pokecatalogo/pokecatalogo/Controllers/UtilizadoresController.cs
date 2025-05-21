@@ -10,22 +10,22 @@ using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
-    public class UtilizadoresControler : Controller
+    public class UtilizadoresController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UtilizadoresControler(ApplicationDbContext context)
+        public UtilizadoresController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: UtilizadoresControler
+        // GET: Utilizadores
         public async Task<IActionResult> Index()
         {
             return View(await _context.Utilizadores.ToListAsync());
         }
 
-        // GET: UtilizadoresControler/Details/5
+        // GET: Utilizadores/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,28 +33,28 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var utilizador = await _context.Utilizadores
+            var utilizadores = await _context.Utilizadores
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizador == null)
+            if (utilizadores == null)
             {
                 return NotFound();
             }
 
-            return View(utilizador);
+            return View(utilizadores);
         }
 
-        // GET: UtilizadoresControler/Create
+        // GET: Utilizadores/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: UtilizadoresControler/Create
+        // POST: Utilizadores/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Email,IdentityUserName")] Utilizadores utilizadores)
         {
             if (ModelState.IsValid)
             {
@@ -64,8 +64,8 @@ namespace pokecatalogo.Controllers
             }
             return View(utilizadores);
         }
-        
-        // GET: UtilizadoresControler/Edit/5
+
+        // GET: Utilizadores/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,18 +78,15 @@ namespace pokecatalogo.Controllers
             {
                 return NotFound();
             }
-
-            HttpContext.Session.SetInt32("utilizadorId", utilizadores.Id);
-            
             return View(utilizadores);
         }
 
-        // POST: UtilizadoresControler/Edit/5
+        // POST: Utilizadores/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute]int id, [Bind("Id,Nome,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Email,IdentityUserName")] Utilizadores utilizadores)
         {
             if (id != utilizadores.Id)
             {
@@ -100,18 +97,8 @@ namespace pokecatalogo.Controllers
             {
                 try
                 {
-                    var utilizadorDaSessao = HttpContext.Session.GetInt32("utilizadorId");
-
-                    if (utilizadorDaSessao != id)
-                    {
-                        ModelState.AddModelError("", "O id do Utilizador que está a tentar editar não é o que tem a sessão iniciada");
-                        return View(utilizadores);
-                    }
-                    
                     _context.Update(utilizadores);
                     await _context.SaveChangesAsync();
-
-                    HttpContext.Session.SetInt32("utilizadorId", 0);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -129,7 +116,7 @@ namespace pokecatalogo.Controllers
             return View(utilizadores);
         }
 
-        // GET: UtilizadoresControler/Delete/5
+        // GET: Utilizadores/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,12 +131,10 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            HttpContext.Session.SetInt32("utilizadorId", utilizadores.Id);
-
             return View(utilizadores);
         }
 
-        // POST: UtilizadoresControler/Delete/5
+        // POST: Utilizadores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -157,19 +142,10 @@ namespace pokecatalogo.Controllers
             var utilizadores = await _context.Utilizadores.FindAsync(id);
             if (utilizadores != null)
             {
-
-                var utilizadorDaSessao = HttpContext.Session.GetInt32("utilizadorId");
-
-                if (utilizadorDaSessao != id)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
                 _context.Utilizadores.Remove(utilizadores);
             }
 
             await _context.SaveChangesAsync();
-
-            HttpContext.Session.SetInt32("utilizadorId", 0);
             return RedirectToAction(nameof(Index));
         }
 

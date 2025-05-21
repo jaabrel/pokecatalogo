@@ -41,11 +41,11 @@ public class Tipo
     public Tipos Fraquezas { get; set; }
     
     [Required]
-    public Tipos Resistências { get; set; }
+    public Tipos? Resistências { get; set; }
     
-    public Tipos Imunidades { get; set; }
+    public Tipos? Imunidades { get; set; }
     
-    public Tipos Efetivo { get; set; }
+    public Tipos? Efetivo { get; set; }
     
     public ICollection<Pokemon> PokemonsPrimarios { get; set; }
     

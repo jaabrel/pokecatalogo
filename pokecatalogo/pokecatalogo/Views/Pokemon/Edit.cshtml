@@ -19,6 +19,26 @@
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DescricaoPokedex" class="control-label"></label>
+                <input asp-for="DescricaoPokedex" class="form-control" />
+                <span asp-validation-for="DescricaoPokedex" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Altura" class="control-label"></label>
+                <input asp-for="Altura" class="form-control" />
+                <span asp-validation-for="Altura" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Peso" class="control-label"></label>
+                <input asp-for="Peso" class="form-control" />
+                <span asp-validation-for="Peso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Especie" class="control-label"></label>
+                <input asp-for="Especie" class="form-control" />
+                <span asp-validation-for="Especie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Tipo1Fk" class="control-label"></label>
                 <select asp-for="Tipo1Fk" class="form-control" asp-items="ViewBag.Tipo1Fk"></select>
                 <span asp-validation-for="Tipo1Fk" class="text-danger"></span>
@@ -27,6 +47,16 @@
                 <label asp-for="Tipo2Fk" class="control-label"></label>
                 <select asp-for="Tipo2Fk" class="form-control" asp-items="ViewBag.Tipo2Fk"></select>
                 <span asp-validation-for="Tipo2Fk" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Imagem" class="control-label"></label>
+                <input asp-for="Imagem" class="form-control" />
+                <span asp-validation-for="Imagem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagemShiny" class="control-label"></label>
+                <input asp-for="ImagemShiny" class="form-control" />
+                <span asp-validation-for="ImagemShiny" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokecatalogo.Data;
 
@@ -10,9 +11,11 @@ using pokecatalogo.Data;
 namespace pokecatalogo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250521102812_pokestats1")]
+    partial class pokestats1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.15");
@@ -142,15 +145,15 @@ namespace pokecatalogo.Data.Migrations
                         {
                             Id = "admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2e5df5c4-f37f-4224-aee6-9c7510878c6e",
+                            ConcurrencyStamp = "6f2af9d2-56ff-4b22-bdbf-df0d3ccc387f",
                             Email = "admin@mail.pt",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.PT",
                             NormalizedUserName = "ADMIN@MAIL.PT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOGKNwrGQm5SdyW1Vd/fK+StOPeH78eJn72QkgJOeD8vtV4ZGqXI5WYBuzKxpA4QTg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELTxCgG4i02P+QzLI8Qk8j6Mc2RbIsiNa3VvimvshqKzba4KqXyVzznqEVuU52ExGQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eb1cf1a8-9d32-420f-bee8-9c124a1a70c9",
+                            SecurityStamp = "3501aa93-423f-4905-8df6-b50f04f6fc2c",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.pt"
                         });
@@ -718,19 +721,19 @@ namespace pokecatalogo.Data.Migrations
                         .WithMany("Pokemons")
                         .HasForeignKey("LocalizacaoId");
 
-                    b.HasOne("pokecatalogo.Models.Tipo", "TipoPrincipal")
+                    b.HasOne("pokecatalogo.Models.Tipo", "Tipo1")
                         .WithMany("PokemonsPrimarios")
                         .HasForeignKey("Tipo1Fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("pokecatalogo.Models.Tipo", "TipoSecundario")
+                    b.HasOne("pokecatalogo.Models.Tipo", "Tipo2")
                         .WithMany("PokemonsSecundarios")
                         .HasForeignKey("Tipo2Fk");
 
-                    b.Navigation("TipoPrincipal");
+                    b.Navigation("Tipo1");
 
-                    b.Navigation("TipoSecundario");
+                    b.Navigation("Tipo2");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.PokemonAtaque", b =>

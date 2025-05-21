@@ -82,12 +82,12 @@ public class ApplicationDbContext : IdentityDbContext
             .HasForeignKey(e => e.PokemonFk2);
         
         modelBuilder.Entity<Pokemon>()
-            .HasOne<Tipo>(p => p.Tipo1)
+            .HasOne<Tipo>(p => p.TipoPrincipal)
             .WithMany(t => t.PokemonsPrimarios)
             .HasForeignKey(p => p.Tipo1Fk);
         
         modelBuilder.Entity<Pokemon>()
-            .HasOne<Tipo>(p => p.Tipo2)
+            .HasOne<Tipo>(p => p.TipoSecundario)
             .WithMany(t => t.PokemonsSecundarios)
             .HasForeignKey(p => p.Tipo2Fk);
 
@@ -130,6 +130,6 @@ public class ApplicationDbContext : IdentityDbContext
     
     public DbSet<Utilizadores> Utilizadores { get; set; }
 
-    public DbSet<pokecatalogo.Models.Equipa> Equipa { get; set; }
+    public DbSet<Equipa> Equipa { get; set; }
     
 }
