@@ -10,6 +10,7 @@ public class Pokemon
     
     public string Nome { get; set; }
     
+    [Required(ErrorMessage = "A descrição da Pokedex é obrigatória")]
     [Display(Name = "Descrição Pokedex")]
     public string DescricaoPokedex { get; set; }
     

@@ -103,13 +103,19 @@ public class ApplicationDbContext : IdentityDbContext
     }
     
     public DbSet<Ataque> Ataques { get; set; }
+
+    public DbSet<Comentario> Comentarios { get; set; }
     
+    public DbSet<Equipa> Equipas { get; set; }
+
     public DbSet<Evolucao> Evolucoes { get; set; }
     
     public DbSet<Habilidade> Habilidades { get; set; }
     
     public DbSet<Jogo> Jogos { get; set; }
     
+    public DbSet<Like> Likes { get; set; }
+
     public DbSet<Localizacao> Localizacoes { get; set; }
     
     public DbSet<LocalizacaoJogo> LocalizacaoJogos { get; set; }
