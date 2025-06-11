@@ -2,23 +2,35 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokecatalogo.Data;
 
 #nullable disable
 
-namespace pokecatalogo.Data.Migrations
+namespace pokecatalogo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250520141540_pokestatsAdd")]
-    partial class pokestatsAdd
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.15");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
+
+            modelBuilder.Entity("AtaquePokemon", b =>
+                {
+                    b.Property<int>("PokemonAtaquesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PokemonId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PokemonAtaquesId", "PokemonId");
+
+                    b.HasIndex("PokemonId");
+
+                    b.ToTable("AtaquePokemon");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -145,15 +157,15 @@ namespace pokecatalogo.Data.Migrations
                         {
                             Id = "admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d9b5647d-e552-47c6-8bc9-a13f4f442293",
+                            ConcurrencyStamp = "fe626d10-17f8-4768-8818-895627758300",
                             Email = "admin@mail.pt",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.PT",
                             NormalizedUserName = "ADMIN@MAIL.PT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP4SkmPxrpLaIlDUVcGOfbH6mKX/JA+MJ+c0zyNUGPvkm1uG9Ll9iQBxoEXU5U2cJw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJFecuPBgE5jii3yuZHDsv9ck+d+sVwoHpY8TmeG3HuiBGPDOcheiY7AfxySgSbq/g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e3379938-ad6c-4865-9a74-feb17f7e92a6",
+                            SecurityStamp = "1bcbd0a7-5c9d-4510-811a-cd5eee6c0dbe",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.pt"
                         });
@@ -249,6 +261,21 @@ namespace pokecatalogo.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PokemonTipo", b =>
+                {
+                    b.Property<int>("PokemonsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TiposId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PokemonsId", "TiposId");
+
+                    b.HasIndex("TiposId");
+
+                    b.ToTable("PokemonTipo");
+                });
+
             modelBuilder.Entity("pokecatalogo.Models.Ataque", b =>
                 {
                     b.Property<int>("Id")
@@ -258,13 +285,33 @@ namespace pokecatalogo.Data.Migrations
                     b.Property<string>("Categoria")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Dano")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Nome")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("PP")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("PokemonEquipaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Precisao")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Prioridade")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TipoFk")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PokemonEquipaId");
 
                     b.HasIndex("TipoFk");
 
@@ -277,20 +324,31 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<int?>("AtaqueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DonoFk")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NomeEquipa")
+                        .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AtaqueId");
+
                     b.HasIndex("DonoFk");
 
-                    b.ToTable("Equipa");
+                    b.ToTable("Equipas");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.Evolucao", b =>
@@ -312,7 +370,8 @@ namespace pokecatalogo.Data.Migrations
 
                     b.HasIndex("PokemonFk1");
 
-                    b.HasIndex("PokemonFk2");
+                    b.HasIndex("PokemonFk2")
+                        .IsUnique();
 
                     b.ToTable("Evolucoes");
                 });
@@ -323,11 +382,14 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Descricao")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("PokemonFk")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("nome")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -342,7 +404,11 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("DataLancamento")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -366,15 +432,21 @@ namespace pokecatalogo.Data.Migrations
 
             modelBuilder.Entity("pokecatalogo.Models.LocalizacaoJogo", b =>
                 {
-                    b.Property<int>("LocalizacaoFk")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("JogoFk")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("LocalizacaoFk", "JogoFk");
+                    b.Property<int>("LocalizacaoFk")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("JogoFk");
+
+                    b.HasIndex("LocalizacaoFk");
 
                     b.ToTable("LocalizacaoJogos");
                 });
@@ -385,42 +457,40 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<float>("Altura")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("DescricaoPokedex")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Especie")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EvolucaoAnteriorFk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Imagem")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImagemShiny")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("LocalizacaoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Tipo1Fk")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("Tipo2Fk")
-                        .HasColumnType("INTEGER");
+                    b.Property<float>("Peso")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LocalizacaoId");
 
-                    b.HasIndex("Tipo1Fk");
-
-                    b.HasIndex("Tipo2Fk");
-
                     b.ToTable("Pokemons");
-                });
-
-            modelBuilder.Entity("pokecatalogo.Models.PokemonAtaque", b =>
-                {
-                    b.Property<int>("PokemonFk")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AtaqueFk")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PokemonFk", "AtaqueFk");
-
-                    b.HasIndex("AtaqueFk");
-
-                    b.ToTable("PokemonAtaques");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.PokemonEquipa", b =>
@@ -429,15 +499,30 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Alcunha")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("EquipaFk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("HabilidadeFk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Nivel")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("PokemonFk")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("PosicaoNaEquipa")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EquipaFk");
+
+                    b.HasIndex("HabilidadeFk");
 
                     b.HasIndex("PokemonFk");
 
@@ -446,37 +531,50 @@ namespace pokecatalogo.Data.Migrations
 
             modelBuilder.Entity("pokecatalogo.Models.PokemonHabilidade", b =>
                 {
-                    b.Property<int>("PokemonFk")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("HabilidadeFk")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PokemonFk", "HabilidadeFk");
+                    b.Property<int>("PokemonFk")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("HabilidadeFk");
+
+                    b.HasIndex("PokemonFk");
 
                     b.ToTable("PokemonHabilidades");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.PokemonLocalizacao", b =>
                 {
-                    b.Property<int>("PokemonFk")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("LocalizacaoFk")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PokemonFk", "LocalizacaoFk");
+                    b.Property<int>("PokemonFk")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("LocalizacaoFk");
+
+                    b.HasIndex("PokemonFk");
 
                     b.ToTable("PokemonLocalizacoes");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.PokemonStats", b =>
                 {
-                    b.Property<int>("PokemonFk")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Atk")
@@ -488,6 +586,9 @@ namespace pokecatalogo.Data.Migrations
                     b.Property<int>("Hp")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("PokemonFk")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("SpA")
                         .HasColumnType("INTEGER");
 
@@ -497,7 +598,9 @@ namespace pokecatalogo.Data.Migrations
                     b.Property<int>("Speed")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PokemonFk");
+                    b.HasKey("Id");
+
+                    b.HasIndex("PokemonFk");
 
                     b.ToTable("PokemonStats");
                 });
@@ -508,15 +611,197 @@ namespace pokecatalogo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Fraquezas")
+                    b.Property<string>("Cor")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nome")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("Efetivo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Fraquezas")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Imunidades")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Nome")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Resistências")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("Tipos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cor = "#A8A878",
+                            Fraquezas = 6,
+                            Imunidades = 13,
+                            Nome = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cor = "#F08030",
+                            Efetivo = 4,
+                            Fraquezas = 2,
+                            Nome = 1,
+                            Resistências = 16
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Cor = "#6890F0",
+                            Efetivo = 12,
+                            Fraquezas = 4,
+                            Nome = 2,
+                            Resistências = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Cor = "#F8D030",
+                            Efetivo = 2,
+                            Fraquezas = 8,
+                            Nome = 3,
+                            Resistências = 9
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Cor = "#78C850",
+                            Efetivo = 8,
+                            Fraquezas = 1,
+                            Nome = 4,
+                            Resistências = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Cor = "#98D8D8",
+                            Efetivo = 9,
+                            Fraquezas = 1,
+                            Nome = 5,
+                            Resistências = 5
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Cor = "#C03028",
+                            Efetivo = 0,
+                            Fraquezas = 10,
+                            Nome = 6,
+                            Resistências = 12
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Cor = "#A040A0",
+                            Efetivo = 17,
+                            Fraquezas = 8,
+                            Nome = 7,
+                            Resistências = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Cor = "#E0C068",
+                            Efetivo = 16,
+                            Fraquezas = 2,
+                            Imunidades = 3,
+                            Nome = 8,
+                            Resistências = 7
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Cor = "#A890F0",
+                            Efetivo = 6,
+                            Fraquezas = 3,
+                            Imunidades = 8,
+                            Nome = 9,
+                            Resistências = 4
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Cor = "#F85888",
+                            Efetivo = 7,
+                            Fraquezas = 15,
+                            Nome = 10,
+                            Resistências = 6
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Cor = "#A8B820",
+                            Efetivo = 10,
+                            Fraquezas = 1,
+                            Nome = 11,
+                            Resistências = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Cor = "#B8A038",
+                            Efetivo = 11,
+                            Fraquezas = 2,
+                            Nome = 12,
+                            Resistências = 0
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Cor = "#705898",
+                            Efetivo = 10,
+                            Fraquezas = 15,
+                            Imunidades = 0,
+                            Nome = 13,
+                            Resistências = 7
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Cor = "#7038F8",
+                            Efetivo = 14,
+                            Fraquezas = 17,
+                            Nome = 14,
+                            Resistências = 1
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Cor = "#705848",
+                            Efetivo = 13,
+                            Fraquezas = 6,
+                            Imunidades = 10,
+                            Nome = 15,
+                            Resistências = 13
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Cor = "#B8B8D0",
+                            Efetivo = 12,
+                            Fraquezas = 1,
+                            Imunidades = 7,
+                            Nome = 16,
+                            Resistências = 17
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Cor = "#EE99AC",
+                            Efetivo = 15,
+                            Fraquezas = 16,
+                            Imunidades = 14,
+                            Nome = 17,
+                            Resistências = 6
+                        });
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.Utilizadores", b =>
@@ -540,6 +825,21 @@ namespace pokecatalogo.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Utilizadores");
+                });
+
+            modelBuilder.Entity("AtaquePokemon", b =>
+                {
+                    b.HasOne("pokecatalogo.Models.Ataque", null)
+                        .WithMany()
+                        .HasForeignKey("PokemonAtaquesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pokecatalogo.Models.Pokemon", null)
+                        .WithMany()
+                        .HasForeignKey("PokemonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -593,8 +893,27 @@ namespace pokecatalogo.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PokemonTipo", b =>
+                {
+                    b.HasOne("pokecatalogo.Models.Pokemon", null)
+                        .WithMany()
+                        .HasForeignKey("PokemonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pokecatalogo.Models.Tipo", null)
+                        .WithMany()
+                        .HasForeignKey("TiposId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("pokecatalogo.Models.Ataque", b =>
                 {
+                    b.HasOne("pokecatalogo.Models.PokemonEquipa", null)
+                        .WithMany("Ataques")
+                        .HasForeignKey("PokemonEquipaId");
+
                     b.HasOne("pokecatalogo.Models.Tipo", "Tipo")
                         .WithMany()
                         .HasForeignKey("TipoFk")
@@ -606,8 +925,12 @@ namespace pokecatalogo.Data.Migrations
 
             modelBuilder.Entity("pokecatalogo.Models.Equipa", b =>
                 {
+                    b.HasOne("pokecatalogo.Models.Ataque", null)
+                        .WithMany("Equipas")
+                        .HasForeignKey("AtaqueId");
+
                     b.HasOne("pokecatalogo.Models.Utilizadores", "Dono")
-                        .WithMany()
+                        .WithMany("ListaEquipas")
                         .HasForeignKey("DonoFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -618,14 +941,14 @@ namespace pokecatalogo.Data.Migrations
             modelBuilder.Entity("pokecatalogo.Models.Evolucao", b =>
                 {
                     b.HasOne("pokecatalogo.Models.Pokemon", "PokemonOrigem")
-                        .WithMany("OrigemEvolucoes")
+                        .WithMany("FinalEvolucoes")
                         .HasForeignKey("PokemonFk1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Pokemon", "PokemonEvoluido")
-                        .WithMany("FinalEvolucoes")
-                        .HasForeignKey("PokemonFk2");
+                        .WithOne("EvolucaoAnterior")
+                        .HasForeignKey("pokecatalogo.Models.Evolucao", "PokemonFk2");
 
                     b.Navigation("PokemonEvoluido");
 
@@ -667,48 +990,19 @@ namespace pokecatalogo.Data.Migrations
                     b.HasOne("pokecatalogo.Models.Localizacao", null)
                         .WithMany("Pokemons")
                         .HasForeignKey("LocalizacaoId");
-
-                    b.HasOne("pokecatalogo.Models.Tipo", "Tipo1")
-                        .WithMany("PokemonsPrimarios")
-                        .HasForeignKey("Tipo1Fk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("pokecatalogo.Models.Tipo", "Tipo2")
-                        .WithMany("PokemonsSecundarios")
-                        .HasForeignKey("Tipo2Fk");
-
-                    b.Navigation("Tipo1");
-
-                    b.Navigation("Tipo2");
-                });
-
-            modelBuilder.Entity("pokecatalogo.Models.PokemonAtaque", b =>
-                {
-                    b.HasOne("pokecatalogo.Models.Ataque", "Ataque")
-                        .WithMany("PokemonAtaques")
-                        .HasForeignKey("AtaqueFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
-                        .WithMany("PokemonAtaques")
-                        .HasForeignKey("PokemonFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ataque");
-
-                    b.Navigation("Pokemon");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.PokemonEquipa", b =>
                 {
                     b.HasOne("pokecatalogo.Models.Equipa", "Equipa")
-                        .WithMany("PokemonEquipas")
+                        .WithMany("Pokemons")
                         .HasForeignKey("EquipaFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("pokecatalogo.Models.Habilidade", "Habilidade")
+                        .WithMany()
+                        .HasForeignKey("HabilidadeFk");
 
                     b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
                         .WithMany()
@@ -717,6 +1011,8 @@ namespace pokecatalogo.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Equipa");
+
+                    b.Navigation("Habilidade");
 
                     b.Navigation("Pokemon");
                 });
@@ -772,12 +1068,12 @@ namespace pokecatalogo.Data.Migrations
 
             modelBuilder.Entity("pokecatalogo.Models.Ataque", b =>
                 {
-                    b.Navigation("PokemonAtaques");
+                    b.Navigation("Equipas");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.Equipa", b =>
                 {
-                    b.Navigation("PokemonEquipas");
+                    b.Navigation("Pokemons");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.Habilidade", b =>
@@ -799,11 +1095,9 @@ namespace pokecatalogo.Data.Migrations
 
             modelBuilder.Entity("pokecatalogo.Models.Pokemon", b =>
                 {
+                    b.Navigation("EvolucaoAnterior");
+
                     b.Navigation("FinalEvolucoes");
-
-                    b.Navigation("OrigemEvolucoes");
-
-                    b.Navigation("PokemonAtaques");
 
                     b.Navigation("PokemonHabilidades");
 
@@ -812,11 +1106,14 @@ namespace pokecatalogo.Data.Migrations
                     b.Navigation("PokemonStats");
                 });
 
-            modelBuilder.Entity("pokecatalogo.Models.Tipo", b =>
+            modelBuilder.Entity("pokecatalogo.Models.PokemonEquipa", b =>
                 {
-                    b.Navigation("PokemonsPrimarios");
+                    b.Navigation("Ataques");
+                });
 
-                    b.Navigation("PokemonsSecundarios");
+            modelBuilder.Entity("pokecatalogo.Models.Utilizadores", b =>
+                {
+                    b.Navigation("ListaEquipas");
                 });
 #pragma warning restore 612, 618
         }

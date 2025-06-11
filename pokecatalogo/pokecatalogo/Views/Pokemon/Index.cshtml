@@ -28,10 +28,10 @@
                 @Html.DisplayNameFor(model => model.Especie)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoPrincipal)
+                @Html.DisplayNameFor(model => model.Tipos.First().Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoSecundario)
+                @Html.DisplayNameFor(model => model.Tipos.Last().Nome)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Imagem)
@@ -61,10 +61,10 @@
                 @Html.DisplayFor(modelItem => item.Especie)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoPrincipal.Cor)
+                @Html.DisplayFor(modelItem => item.Tipos.First().Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoSecundario.Cor)
+                @Html.DisplayFor(modelItem => item.Tipos.Last().Nome)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Imagem)

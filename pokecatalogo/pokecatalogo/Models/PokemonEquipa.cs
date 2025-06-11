@@ -29,7 +29,7 @@ public class PokemonEquipa
     public int PosicaoNaEquipa { get; set; }
 
     // Movimentos do Pokémon na equipa (máximo 4)
-    public ICollection<PokemonAtaque> Ataques { get; set; }
+    public ICollection<Ataque> Ataques { get; set; }
 
     // Habilidade escolhida para o Pokémon na equipa
     [ForeignKey(nameof(Habilidade))]
@@ -38,6 +38,6 @@ public class PokemonEquipa
 
     public PokemonEquipa()
     {
-        Ataques = new List<PokemonAtaque>();
+        Ataques = new List<Ataque>();
     }
 }

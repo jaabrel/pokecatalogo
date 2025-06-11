@@ -26,5 +26,7 @@ public class Ataque
     public int TipoFk { get; set; }
     public Tipo Tipo { get; set; }
     
-    public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
+    public ICollection<Pokemon> Pokemon { get; set; }
+    
+    public ICollection<Equipa> Equipas { get; set; }
 }

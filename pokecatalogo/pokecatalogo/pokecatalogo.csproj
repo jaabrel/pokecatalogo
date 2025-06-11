@@ -1,62 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-pokecatalogo-c1a012e6-e421-4dcd-b17b-dbd6f3e85cc8</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
-    </ItemGroup>
-
-    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11"/>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\UtilizadoresControler\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\UtilizadoresControler\Delete.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\UtilizadoresControler\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\UtilizadoresControler\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\UtilizadoresControler\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Tipo\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Tipo\Delete.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Tipo\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Tipo\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Tipo\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Pokemon\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Pokemon\Delete.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Pokemon\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Pokemon\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Pokemon\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Jogo\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Jogo\Delete.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Jogo\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Jogo\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Jogo\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Habilidade\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Habilidade\Delete.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Habilidade\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Habilidade\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Habilidade\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Equipa\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Equipa\Delete.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Equipa\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Equipa\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Equipa\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Ataque\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Ataque\Delete.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Ataque\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Ataque\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Ataque\Index.cshtml" />
-    </ItemGroup>
-
 </Project>

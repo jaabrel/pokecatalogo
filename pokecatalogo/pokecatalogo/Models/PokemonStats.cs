@@ -5,6 +5,8 @@ namespace pokecatalogo.Models;
 
 public class PokemonStats
 {
+    public int Id { get; set; }
+    
     [Display(Name = "Pontos de Vida")]
     public int Hp { get; set; }
     

@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -6,23 +10,23 @@ using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
-    public class PokemonController : Controller
+    public class AtaqueController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PokemonController(ApplicationDbContext context)
+        public AtaqueController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Pokemon
+        // GET: Ataque
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Pokemons.Include(p => p.Tipos);
+            var applicationDbContext = _context.Ataques.Include(a => a.Tipo);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Pokemon/Details/5
+        // GET: Ataque/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,56 +34,42 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var pokemon = await _context.Pokemons
-                .Include(p => p.Tipos)
+            var ataque = await _context.Ataques
+                .Include(a => a.Tipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pokemon == null)
+            if (ataque == null)
             {
                 return NotFound();
             }
 
-            return View(pokemon);
+            return View(ataque);
         }
 
-        // GET: Pokemon/Create
+        // GET: Ataque/Create
         public IActionResult Create()
         {
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome");
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor");
             return View();
         }
 
-        // POST: Pokemon/Create
+        // POST: Ataque/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Imagem,ImagemShiny")] Pokemon pokemon, List<int> Tipos)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
             if (ModelState.IsValid)
             {
-                if (Tipos.Count == 1)
-                {
-                    _context.Tipos.Where(t => t.Id == Tipos[0])
-                        .ToList()
-                        .ForEach(t => pokemon.Tipos.Add(t));
-                } else if (Tipos.Count == 2)
-                {
-                    _context.Tipos.Where(t => t.Id == Tipos[0] || t.Id == Tipos[1])
-                        .ToList()
-                        .ForEach(t => pokemon.Tipos.Add(t));
-                }
-                
-               
-                
-                _context.Add(pokemon);
+                _context.Add(ataque);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome", pokemon.Tipos);
-            return View(pokemon);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
+            return View(ataque);
         }
 
-        // GET: Pokemon/Edit/5
+        // GET: Ataque/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,24 +77,23 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var pokemon =  _context.Pokemons.Include(p => p.Tipos).First(p => p.Id==id);
-            var tipo1 = pokemon.Tipos.First().Id;
-            if (pokemon == null)
+            var ataque = await _context.Ataques.FindAsync(id);
+            if (ataque == null)
             {
                 return NotFound();
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome", tipo1);
-            return View(pokemon);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
+            return View(ataque);
         }
 
-        // POST: Pokemon/Edit/5
+        // POST: Ataque/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Tipo1Fk,Tipo2Fk,Imagem,ImagemShiny")] Pokemon pokemon)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
-            if (id != pokemon.Id)
+            if (id != ataque.Id)
             {
                 return NotFound();
             }
@@ -113,12 +102,12 @@ namespace pokecatalogo.Controllers
             {
                 try
                 {
-                    _context.Update(pokemon);
+                    _context.Update(ataque);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PokemonExists(pokemon.Id))
+                    if (!AtaqueExists(ataque.Id))
                     {
                         return NotFound();
                     }
@@ -129,11 +118,11 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome", pokemon.Tipos);
-            return View(pokemon);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
+            return View(ataque);
         }
 
-        // GET: Pokemon/Delete/5
+        // GET: Ataque/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,35 +130,35 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var pokemon = await _context.Pokemons
-                .Include(p => p.Tipos)
+            var ataque = await _context.Ataques
+                .Include(a => a.Tipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pokemon == null)
+            if (ataque == null)
             {
                 return NotFound();
             }
 
-            return View(pokemon);
+            return View(ataque);
         }
 
-        // POST: Pokemon/Delete/5
+        // POST: Ataque/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pokemon = await _context.Pokemons.FindAsync(id);
-            if (pokemon != null)
+            var ataque = await _context.Ataques.FindAsync(id);
+            if (ataque != null)
             {
-                _context.Pokemons.Remove(pokemon);
+                _context.Ataques.Remove(ataque);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PokemonExists(int id)
+        private bool AtaqueExists(int id)
         {
-            return _context.Pokemons.Any(e => e.Id == id);
+            return _context.Ataques.Any(e => e.Id == id);
         }
     }
 }

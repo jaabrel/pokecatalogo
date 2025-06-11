@@ -1,0 +1,101 @@
+@model IEnumerable<pokecatalogo.Models.Ataque>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Categoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dano)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precisao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prioridade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dano)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precisao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prioridade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo.Cor)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/ataqueHub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+    
+    async function start() {
+        try {
+            await connection.start();
+            console.log("SignalR Connected.");
+        } catch (err) {
+            console.log(err);
+            setTimeout(start, 5000);
+        }
+    };
+    
+    connection.onclose(async () => {
+        await start();
+    });
+    
+    start();
+    
+</script>
