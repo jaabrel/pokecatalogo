@@ -5,6 +5,8 @@ namespace pokecatalogo.Models;
 
 public class PokemonLocalizacao
 {
+    public int Id { get; set; }
+    
     [Display(Name = "Pokemon")]
     [ForeignKey(nameof(Pokemon))]
     public int PokemonFk { get; set; }

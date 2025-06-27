@@ -17,16 +17,52 @@
             @Html.DisplayFor(model => model.Nome)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tipo1)
+            @Html.DisplayNameFor(model => model.DescricaoPokedex)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tipo1.Id)
+            @Html.DisplayFor(model => model.DescricaoPokedex)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tipo2)
+            @Html.DisplayNameFor(model => model.Altura)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tipo2.Id)
+            @Html.DisplayFor(model => model.Altura)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Peso)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Peso)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Especie)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Especie)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tipos)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                foreach (var tipo in Model.Tipos)
+                {
+                    <p>@(tipo.Cor + "-" + tipo.Nome)</p>
+                }
+
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Imagem)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Imagem)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImagemShiny)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImagemShiny)
         </dd>
     </dl>
 </div>

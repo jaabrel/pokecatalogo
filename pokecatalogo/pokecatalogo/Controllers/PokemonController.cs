@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +18,7 @@ namespace pokecatalogo.Controllers
         // GET: Pokemon
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Pokemons.Include(p => p.Tipo1).Include(p => p.Tipo2);
+            var applicationDbContext = _context.Pokemons.Include(p => p.Tipos);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,8 +31,7 @@ namespace pokecatalogo.Controllers
             }
 
             var pokemon = await _context.Pokemons
-                .Include(p => p.Tipo1)
-                .Include(p => p.Tipo2)
+                .Include(p => p.Tipos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pokemon == null)
             {
@@ -48,11 +42,9 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Pokemon/Create
-        [Authorize]
         public IActionResult Create()
         {
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id");
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id");
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome");
             return View();
         }
 
@@ -61,16 +53,29 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Tipo1Fk,Tipo2Fk")] Pokemon pokemon)
+        public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Imagem,ImagemShiny")] Pokemon pokemon, List<int> Tipos)
         {
             if (ModelState.IsValid)
             {
+                if (Tipos.Count == 1)
+                {
+                    _context.Tipos.Where(t => t.Id == Tipos[0])
+                        .ToList()
+                        .ForEach(t => pokemon.Tipos.Add(t));
+                } else if (Tipos.Count == 2)
+                {
+                    _context.Tipos.Where(t => t.Id == Tipos[0] || t.Id == Tipos[1])
+                        .ToList()
+                        .ForEach(t => pokemon.Tipos.Add(t));
+                }
+                
+               
+                
                 _context.Add(pokemon);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome", pokemon.Tipos);
             return View(pokemon);
         }
 
@@ -82,13 +87,13 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var pokemon = await _context.Pokemons.FindAsync(id);
+            var pokemon =  _context.Pokemons.Include(p => p.Tipos).First(p => p.Id==id);
+            var tipo1 = pokemon.Tipos.First().Id;
             if (pokemon == null)
             {
                 return NotFound();
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome", tipo1);
             return View(pokemon);
         }
 
@@ -97,7 +102,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Tipo1Fk,Tipo2Fk")] Pokemon pokemon)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Tipo1Fk,Tipo2Fk,Imagem,ImagemShiny")] Pokemon pokemon)
         {
             if (id != pokemon.Id)
             {
@@ -124,8 +129,7 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo1Fk);
-            ViewData["Tipo2Fk"] = new SelectList(_context.Tipos, "Id", "Id", pokemon.Tipo2Fk);
+            ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome", pokemon.Tipos);
             return View(pokemon);
         }
 
@@ -138,8 +142,7 @@ namespace pokecatalogo.Controllers
             }
 
             var pokemon = await _context.Pokemons
-                .Include(p => p.Tipo1)
-                .Include(p => p.Tipo2)
+                .Include(p => p.Tipos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pokemon == null)
             {
@@ -168,5 +171,8 @@ namespace pokecatalogo.Controllers
         {
             return _context.Pokemons.Any(e => e.Id == id);
         }
+        
+        // GET: Pokemon/Search?term=query
+        
     }
 }

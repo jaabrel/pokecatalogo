@@ -13,13 +13,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                @Html.DisplayNameFor(model => model.Nome).
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tipo1)
+                @Html.DisplayNameFor(model => model.DescricaoPokedex)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tipo2)
+                @Html.DisplayNameFor(model => model.Altura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Peso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipos.First().Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipos.Last().Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagemShiny)
             </th>
             <th></th>
         </tr>
@@ -31,10 +49,28 @@
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tipo1.Id)
+                @Html.DisplayFor(modelItem => item.DescricaoPokedex)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tipo2.Id)
+                @Html.DisplayFor(modelItem => item.Altura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Peso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipos.First().Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipos.Last().Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imagem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImagemShiny)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

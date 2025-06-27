@@ -7,35 +7,41 @@ public class Pokemon
 {
     [Key] 
     public int Id { get; set; }
-
-    [Display(Name = "Nome")] 
+    
+    [Required(ErrorMessage= "O pokémon tem de ter um Nome")]
     public string Nome { get; set; }
+    
+    [Required(ErrorMessage = "A descrição da Pokedex é obrigatória")]
+    [Display(Name = "Descrição Pokedex")]
+    public string DescricaoPokedex { get; set; }
+    
+    public float Altura { get; set; }
+    
+    public float Peso { get; set; }
 
-    [Display(Name = "Tipo Principal")]
-    [ForeignKey(nameof(Tipo1))]
-    public int Tipo1Fk { get; set; }
-
-    public Tipo Tipo1 { get; set; }
-
-    [Display(Name = "Tipo Secundário")]
-    [ForeignKey(nameof(Tipo2))]
-    public int? Tipo2Fk { get; set; }
-
-    public Tipo Tipo2 { get; set; }
+    [Display(Name = "Espécie")]
+    public string Especie { get; set; }
+    
+    public ICollection<Tipo> Tipos { get; set; } = [];
 
     public string Imagem { get; set; }
     
-    public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
+    [Display(Name = "Imagem Shiny")]
+    public string ImagemShiny { get; set; }
+
+    public ICollection<Ataque> PokemonAtaques { get; set; } = [];
     
-    public ICollection<PokemonHabilidade> PokemonHabilidades { get; set; }
+    public ICollection<PokemonHabilidade> PokemonHabilidades { get; set; }= [];
     
-    public ICollection<Evolucao> OrigemEvolucoes { get; set; }
+    [ForeignKey(nameof(EvolucaoAnterior))]
+    public int EvolucaoAnteriorFk { get; set; }
+    public Evolucao EvolucaoAnterior { get; set; }
     
-    public ICollection<Evolucao> FinalEvolucoes { get; set; }
+    public ICollection<Evolucao> FinalEvolucoes { get; set; }= [];
     
-    public ICollection<PokemonLocalizacao> PokemonLocalizacoes { get; set; }
+    public ICollection<PokemonLocalizacao> PokemonLocalizacoes { get; set; }= [];
     
-    public ICollection<PokemonStats> PokemonStats { get; set; }
+    public ICollection<PokemonStats> PokemonStats { get; set; }= [];
     
     
 }

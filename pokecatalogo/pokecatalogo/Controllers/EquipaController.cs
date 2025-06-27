@@ -22,7 +22,7 @@ namespace pokecatalogo.Controllers
         // GET: Equipa
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Equipa.Include(e => e.Dono);
+            var applicationDbContext = _context.Ataques.Include(a => a.Tipo);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -34,21 +34,21 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var equipa = await _context.Equipa
-                .Include(e => e.Dono)
+            var ataque = await _context.Ataques
+                .Include(a => a.Tipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (equipa == null)
+            if (ataque == null)
             {
                 return NotFound();
             }
 
-            return View(equipa);
+            return View(ataque);
         }
 
         // GET: Equipa/Create
         public IActionResult Create()
         {
-            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email");
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor");
             return View();
         }
 
@@ -57,16 +57,16 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NomeEquipa,CreatedDate,DonoFk")] Equipa equipa)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(equipa);
+                _context.Add(ataque);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email", equipa.DonoFk);
-            return View(equipa);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
+            return View(ataque);
         }
 
         // GET: Equipa/Edit/5
@@ -77,13 +77,13 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var equipa = await _context.Equipa.FindAsync(id);
-            if (equipa == null)
+            var ataque = await _context.Ataques.FindAsync(id);
+            if (ataque == null)
             {
                 return NotFound();
             }
-            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email", equipa.DonoFk);
-            return View(equipa);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
+            return View(ataque);
         }
 
         // POST: Equipa/Edit/5
@@ -91,9 +91,9 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NomeEquipa,CreatedDate,DonoFk")] Equipa equipa)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
-            if (id != equipa.Id)
+            if (id != ataque.Id)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace pokecatalogo.Controllers
             {
                 try
                 {
-                    _context.Update(equipa);
+                    _context.Update(ataque);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EquipaExists(equipa.Id))
+                    if (!AtaqueExists(ataque.Id))
                     {
                         return NotFound();
                     }
@@ -118,8 +118,8 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DonoFk"] = new SelectList(_context.Utilizadores, "Id", "Email", equipa.DonoFk);
-            return View(equipa);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
+            return View(ataque);
         }
 
         // GET: Equipa/Delete/5
@@ -130,15 +130,15 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
-            var equipa = await _context.Equipa
-                .Include(e => e.Dono)
+            var ataque = await _context.Ataques
+                .Include(a => a.Tipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (equipa == null)
+            if (ataque == null)
             {
                 return NotFound();
             }
 
-            return View(equipa);
+            return View(ataque);
         }
 
         // POST: Equipa/Delete/5
@@ -146,19 +146,19 @@ namespace pokecatalogo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var equipa = await _context.Equipa.FindAsync(id);
-            if (equipa != null)
+            var ataque = await _context.Ataques.FindAsync(id);
+            if (ataque != null)
             {
-                _context.Equipa.Remove(equipa);
+                _context.Ataques.Remove(ataque);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EquipaExists(int id)
+        private bool AtaqueExists(int id)
         {
-            return _context.Equipa.Any(e => e.Id == id);
+            return _context.Ataques.Any(e => e.Id == id);
         }
     }
 }
