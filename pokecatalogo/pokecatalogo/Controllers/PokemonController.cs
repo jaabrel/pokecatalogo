@@ -171,5 +171,8 @@ namespace pokecatalogo.Controllers
         {
             return _context.Pokemons.Any(e => e.Id == id);
         }
+        
+        // GET: Pokemon/Search?term=query
+        
     }
 }
