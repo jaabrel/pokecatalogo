@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using pokecatalogo.Models;
 
 namespace pokecatalogo.Data;
@@ -121,10 +122,4 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Tipo> Tipos { get; set; }
     
     public DbSet<Utilizadores> Utilizadores { get; set; }
-
-    public IQueryable<Pokemon> SearchPokemons(String searchString)
-    {
-        SqlParameter pSearchString = new SqlParameter("@Nome", searchString);
-        return this.Pokemons.FromSql("EXECUTE Pokemon_SearchPokemons @Nome", pSearchString);
-    }
 }

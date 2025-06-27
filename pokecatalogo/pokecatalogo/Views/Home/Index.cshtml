@@ -7,12 +7,47 @@
     <h1 class="display-4">Bem vindo ao PokéCatálogo</h1>
     
     <div class="search-container mt-4">
-        <form method="get" asp-page="/Index">
+        <form asp-action="Index" method="get" class="mb-4">
             <div class="input-group">
-                <input type="text" class="form-control" name="pesquisa" placeholder="Pikachu" />
-                <button class="btn btn-primary" type="submit">Procurar</button>
-            </div> 
+                <input type="text"
+                       class="form-control"
+                       name="searchString"
+                       placeholder="Procurar Pokémon..."
+                       value="@ViewData["CurrentFilter"]">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>Search
+                    </button>
+                    @if (!string.IsNullOrEmpty(ViewData["CurrentFilter"] as string))
+                    {
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Clear
+                        </a>
+                    }
+                </div>
+            </div>
         </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["NameSort"]"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["TypeSort"]"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        Type
+                    </a>
+                </th>
+                <!-- Other columns -->
+            </tr>
+            </thead>
+        </table>
     </div>
 </div>
 

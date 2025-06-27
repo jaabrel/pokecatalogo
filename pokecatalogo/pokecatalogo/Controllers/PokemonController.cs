@@ -22,6 +22,25 @@ namespace pokecatalogo.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        {
+            ViewData["NameSort"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["TypeSort"] = sortOrder == "type" ? "type_desc" : "type";
+            
+            var query = _context.Pokemons.Include(p => p.Tipos).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                query = query.Where(p =>
+                    p.Nome.ToLower().Contains(searchString));
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            return View(await query.ToListAsync());
+        }
+
         // GET: Pokemon/Details/5
         public async Task<IActionResult> Details(int? id)
         {
