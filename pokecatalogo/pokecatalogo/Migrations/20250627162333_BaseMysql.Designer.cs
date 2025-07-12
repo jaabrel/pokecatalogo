@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokecatalogo.Data;
@@ -11,22 +12,26 @@ using pokecatalogo.Data;
 namespace pokecatalogo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250611092159_Base")]
-    partial class Base
+    [Migration("20250627162333_BaseMysql")]
+    partial class BaseMysql
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.14")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("AtaquePokemon", b =>
                 {
                     b.Property<int>("PokemonAtaquesId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("PokemonId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("PokemonAtaquesId", "PokemonId");
 
@@ -38,25 +43,26 @@ namespace pokecatalogo.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
 
@@ -73,17 +79,19 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -95,54 +103,54 @@ namespace pokecatalogo.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -151,7 +159,8 @@ namespace pokecatalogo.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
 
@@ -166,7 +175,7 @@ namespace pokecatalogo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.PT",
                             NormalizedUserName = "ADMIN@MAIL.PT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIA0h1QcKBRGBPyBH7wNwrkzG6sHzJkIY+3B0fgCymH32MENzVlqf1vq9O5NIjzcew==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKldZ7+5+z8CcQT1Ympxy7ULMdLOs5NtCJ/dbxxUnMU2fA/weIwvm8HieQ+2xKFLJg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "1bcbd0a7-5c9d-4510-811a-cd5eee6c0dbe",
                             TwoFactorEnabled = false,
@@ -178,17 +187,19 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -201,18 +212,18 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -224,10 +235,10 @@ namespace pokecatalogo.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -246,18 +257,18 @@ namespace pokecatalogo.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -267,10 +278,10 @@ namespace pokecatalogo.Migrations
             modelBuilder.Entity("PokemonTipo", b =>
                 {
                     b.Property<int>("PokemonsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("TiposId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("PokemonsId", "TiposId");
 
@@ -283,34 +294,36 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Categoria")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Dano")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PP")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int?>("PokemonEquipaId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Precisao")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Prioridade")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("TipoFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -321,58 +334,31 @@ namespace pokecatalogo.Migrations
                     b.ToTable("Ataques");
                 });
 
-            modelBuilder.Entity("pokecatalogo.Models.Comentario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Conteudo")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataComentario")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("EquipaFk")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UtilizadorFk")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipaFk");
-
-                    b.HasIndex("UtilizadorFk");
-
-                    b.ToTable("Comentarios");
-                });
-
             modelBuilder.Entity("pokecatalogo.Models.Equipa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AtaqueId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("DonoFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("NomeEquipa")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -387,23 +373,26 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PokemonFk1")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int?>("PokemonFk2")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PokemonFk1");
 
                     b.HasIndex("PokemonFk2")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[PokemonFk2] IS NOT NULL");
 
                     b.ToTable("Evolucoes");
                 });
@@ -412,16 +401,18 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PokemonFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -434,52 +425,32 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DataLancamento")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Jogos");
                 });
 
-            modelBuilder.Entity("pokecatalogo.Models.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DataLike")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("EquipaFk")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UtilizadorFk")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipaFk");
-
-                    b.HasIndex("UtilizadorFk");
-
-                    b.ToTable("Likes");
-                });
-
             modelBuilder.Entity("pokecatalogo.Models.Localizacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nome")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -490,13 +461,15 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("JogoFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("LocalizacaoFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -511,36 +484,38 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<float>("Altura")
-                        .HasColumnType("REAL");
+                        .HasColumnType("real");
 
                     b.Property<string>("DescricaoPokedex")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Especie")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EvolucaoAnteriorFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Imagem")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagemShiny")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("LocalizacaoId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Peso")
-                        .HasColumnType("REAL");
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -553,26 +528,28 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Alcunha")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("EquipaFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int?>("HabilidadeFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Nivel")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("PokemonFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("PosicaoNaEquipa")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -589,13 +566,15 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("HabilidadeFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("PokemonFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -610,13 +589,15 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("LocalizacaoFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("PokemonFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -631,28 +612,30 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Atk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Def")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Hp")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("PokemonFk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("SpA")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("SpD")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Speed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -665,49 +648,222 @@ namespace pokecatalogo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Cor")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Efetivo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Fraquezas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int?>("Imunidades")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("Nome")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<int>("Resistências")
-                        .HasColumnType("INTEGER");
+                    b.Property<int?>("Resistências")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Tipos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cor = "#A8A878",
+                            Fraquezas = 6,
+                            Imunidades = 13,
+                            Nome = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cor = "#F08030",
+                            Efetivo = 4,
+                            Fraquezas = 2,
+                            Nome = 1,
+                            Resistências = 16
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Cor = "#6890F0",
+                            Efetivo = 12,
+                            Fraquezas = 4,
+                            Nome = 2,
+                            Resistências = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Cor = "#F8D030",
+                            Efetivo = 2,
+                            Fraquezas = 8,
+                            Nome = 3,
+                            Resistências = 9
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Cor = "#78C850",
+                            Efetivo = 8,
+                            Fraquezas = 1,
+                            Nome = 4,
+                            Resistências = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Cor = "#98D8D8",
+                            Efetivo = 9,
+                            Fraquezas = 1,
+                            Nome = 5,
+                            Resistências = 5
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Cor = "#C03028",
+                            Efetivo = 0,
+                            Fraquezas = 10,
+                            Nome = 6,
+                            Resistências = 12
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Cor = "#A040A0",
+                            Efetivo = 17,
+                            Fraquezas = 8,
+                            Nome = 7,
+                            Resistências = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Cor = "#E0C068",
+                            Efetivo = 16,
+                            Fraquezas = 2,
+                            Imunidades = 3,
+                            Nome = 8,
+                            Resistências = 7
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Cor = "#A890F0",
+                            Efetivo = 6,
+                            Fraquezas = 3,
+                            Imunidades = 8,
+                            Nome = 9,
+                            Resistências = 4
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Cor = "#F85888",
+                            Efetivo = 7,
+                            Fraquezas = 15,
+                            Nome = 10,
+                            Resistências = 6
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Cor = "#A8B820",
+                            Efetivo = 10,
+                            Fraquezas = 1,
+                            Nome = 11,
+                            Resistências = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Cor = "#B8A038",
+                            Efetivo = 11,
+                            Fraquezas = 2,
+                            Nome = 12,
+                            Resistências = 0
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Cor = "#705898",
+                            Efetivo = 10,
+                            Fraquezas = 15,
+                            Imunidades = 0,
+                            Nome = 13,
+                            Resistências = 7
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Cor = "#7038F8",
+                            Efetivo = 14,
+                            Fraquezas = 17,
+                            Nome = 14,
+                            Resistências = 1
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Cor = "#705848",
+                            Efetivo = 13,
+                            Fraquezas = 6,
+                            Imunidades = 10,
+                            Nome = 15,
+                            Resistências = 13
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Cor = "#B8B8D0",
+                            Efetivo = 12,
+                            Fraquezas = 1,
+                            Imunidades = 7,
+                            Nome = 16,
+                            Resistências = 17
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Cor = "#EE99AC",
+                            Efetivo = 15,
+                            Fraquezas = 16,
+                            Imunidades = 14,
+                            Nome = 17,
+                            Resistências = 6
+                        });
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.Utilizadores", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserName")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -810,25 +966,6 @@ namespace pokecatalogo.Migrations
                     b.Navigation("Tipo");
                 });
 
-            modelBuilder.Entity("pokecatalogo.Models.Comentario", b =>
-                {
-                    b.HasOne("pokecatalogo.Models.Equipa", "Equipa")
-                        .WithMany("Comentarios")
-                        .HasForeignKey("EquipaFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("pokecatalogo.Models.Utilizadores", "Utilizador")
-                        .WithMany("ListaComentarios")
-                        .HasForeignKey("UtilizadorFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Equipa");
-
-                    b.Navigation("Utilizador");
-                });
-
             modelBuilder.Entity("pokecatalogo.Models.Equipa", b =>
                 {
                     b.HasOne("pokecatalogo.Models.Ataque", null)
@@ -870,25 +1007,6 @@ namespace pokecatalogo.Migrations
                         .IsRequired();
 
                     b.Navigation("Pokemon");
-                });
-
-            modelBuilder.Entity("pokecatalogo.Models.Like", b =>
-                {
-                    b.HasOne("pokecatalogo.Models.Equipa", "Equipa")
-                        .WithMany("Likes")
-                        .HasForeignKey("EquipaFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("pokecatalogo.Models.Utilizadores", "Utilizador")
-                        .WithMany("ListaLikes")
-                        .HasForeignKey("UtilizadorFk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Equipa");
-
-                    b.Navigation("Utilizador");
                 });
 
             modelBuilder.Entity("pokecatalogo.Models.LocalizacaoJogo", b =>
@@ -998,10 +1116,6 @@ namespace pokecatalogo.Migrations
 
             modelBuilder.Entity("pokecatalogo.Models.Equipa", b =>
                 {
-                    b.Navigation("Comentarios");
-
-                    b.Navigation("Likes");
-
                     b.Navigation("Pokemons");
                 });
 
@@ -1042,11 +1156,7 @@ namespace pokecatalogo.Migrations
 
             modelBuilder.Entity("pokecatalogo.Models.Utilizadores", b =>
                 {
-                    b.Navigation("ListaComentarios");
-
                     b.Navigation("ListaEquipas");
-
-                    b.Navigation("ListaLikes");
                 });
 #pragma warning restore 612, 618
         }

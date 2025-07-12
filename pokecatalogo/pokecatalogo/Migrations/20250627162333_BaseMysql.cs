@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace pokecatalogo.Migrations
 {
     /// <inheritdoc />
-    public partial class Base : Migration
+    public partial class BaseMysql : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +17,10 @@ namespace pokecatalogo.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,21 +31,21 @@ namespace pokecatalogo.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,10 +56,10 @@ namespace pokecatalogo.Migrations
                 name: "Jogos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    DataLancamento = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataLancamento = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,9 +70,9 @@ namespace pokecatalogo.Migrations
                 name: "Localizacoes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,14 +83,14 @@ namespace pokecatalogo.Migrations
                 name: "Tipos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<int>(type: "INTEGER", nullable: false),
-                    Cor = table.Column<string>(type: "TEXT", nullable: false),
-                    Fraquezas = table.Column<int>(type: "INTEGER", nullable: false),
-                    Resistências = table.Column<int>(type: "INTEGER", nullable: false),
-                    Imunidades = table.Column<int>(type: "INTEGER", nullable: true),
-                    Efetivo = table.Column<int>(type: "INTEGER", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<int>(type: "int", nullable: false),
+                    Cor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Fraquezas = table.Column<int>(type: "int", nullable: false),
+                    Resistências = table.Column<int>(type: "int", nullable: true),
+                    Imunidades = table.Column<int>(type: "int", nullable: true),
+                    Efetivo = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,11 +101,11 @@ namespace pokecatalogo.Migrations
                 name: "Utilizadores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    IdentityUserName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdentityUserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,11 +116,11 @@ namespace pokecatalogo.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -135,11 +137,11 @@ namespace pokecatalogo.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,10 +158,10 @@ namespace pokecatalogo.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,8 +178,8 @@ namespace pokecatalogo.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,10 +202,10 @@ namespace pokecatalogo.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -220,10 +222,10 @@ namespace pokecatalogo.Migrations
                 name: "LocalizacaoJogos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    JogoFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    LocalizacaoFk = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JogoFk = table.Column<int>(type: "int", nullable: false),
+                    LocalizacaoFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,17 +248,17 @@ namespace pokecatalogo.Migrations
                 name: "Pokemons",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    DescricaoPokedex = table.Column<string>(type: "TEXT", nullable: false),
-                    Altura = table.Column<float>(type: "REAL", nullable: false),
-                    Peso = table.Column<float>(type: "REAL", nullable: false),
-                    Especie = table.Column<string>(type: "TEXT", nullable: true),
-                    Imagem = table.Column<string>(type: "TEXT", nullable: true),
-                    ImagemShiny = table.Column<string>(type: "TEXT", nullable: true),
-                    EvolucaoAnteriorFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    LocalizacaoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescricaoPokedex = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Altura = table.Column<float>(type: "real", nullable: false),
+                    Peso = table.Column<float>(type: "real", nullable: false),
+                    Especie = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Imagem = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagemShiny = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EvolucaoAnteriorFk = table.Column<int>(type: "int", nullable: false),
+                    LocalizacaoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -272,11 +274,11 @@ namespace pokecatalogo.Migrations
                 name: "Evolucoes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true),
-                    PokemonFk1 = table.Column<int>(type: "INTEGER", nullable: false),
-                    PokemonFk2 = table.Column<int>(type: "INTEGER", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PokemonFk1 = table.Column<int>(type: "int", nullable: false),
+                    PokemonFk2 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -298,11 +300,11 @@ namespace pokecatalogo.Migrations
                 name: "Habilidades",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: true),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true),
-                    PokemonFk = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PokemonFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -319,10 +321,10 @@ namespace pokecatalogo.Migrations
                 name: "PokemonLocalizacoes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    PokemonFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    LocalizacaoFk = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PokemonFk = table.Column<int>(type: "int", nullable: false),
+                    LocalizacaoFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -345,15 +347,15 @@ namespace pokecatalogo.Migrations
                 name: "PokemonStats",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Hp = table.Column<int>(type: "INTEGER", nullable: false),
-                    Atk = table.Column<int>(type: "INTEGER", nullable: false),
-                    Def = table.Column<int>(type: "INTEGER", nullable: false),
-                    SpA = table.Column<int>(type: "INTEGER", nullable: false),
-                    SpD = table.Column<int>(type: "INTEGER", nullable: false),
-                    Speed = table.Column<int>(type: "INTEGER", nullable: false),
-                    PokemonFk = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Hp = table.Column<int>(type: "int", nullable: false),
+                    Atk = table.Column<int>(type: "int", nullable: false),
+                    Def = table.Column<int>(type: "int", nullable: false),
+                    SpA = table.Column<int>(type: "int", nullable: false),
+                    SpD = table.Column<int>(type: "int", nullable: false),
+                    Speed = table.Column<int>(type: "int", nullable: false),
+                    PokemonFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -370,8 +372,8 @@ namespace pokecatalogo.Migrations
                 name: "PokemonTipo",
                 columns: table => new
                 {
-                    PokemonsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TiposId = table.Column<int>(type: "INTEGER", nullable: false)
+                    PokemonsId = table.Column<int>(type: "int", nullable: false),
+                    TiposId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -394,10 +396,10 @@ namespace pokecatalogo.Migrations
                 name: "PokemonHabilidades",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    PokemonFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    HabilidadeFk = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PokemonFk = table.Column<int>(type: "int", nullable: false),
+                    HabilidadeFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -407,21 +409,21 @@ namespace pokecatalogo.Migrations
                         column: x => x.HabilidadeFk,
                         principalTable: "Habilidades",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PokemonHabilidades_Pokemons_PokemonFk",
                         column: x => x.PokemonFk,
                         principalTable: "Pokemons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "AtaquePokemon",
                 columns: table => new
                 {
-                    PokemonAtaquesId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PokemonId = table.Column<int>(type: "INTEGER", nullable: false)
+                    PokemonAtaquesId = table.Column<int>(type: "int", nullable: false),
+                    PokemonId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -431,24 +433,24 @@ namespace pokecatalogo.Migrations
                         column: x => x.PokemonId,
                         principalTable: "Pokemons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Ataques",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: true),
-                    Categoria = table.Column<string>(type: "TEXT", nullable: true),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true),
-                    Dano = table.Column<int>(type: "INTEGER", nullable: false),
-                    Precisao = table.Column<int>(type: "INTEGER", nullable: false),
-                    PP = table.Column<int>(type: "INTEGER", nullable: false),
-                    Prioridade = table.Column<int>(type: "INTEGER", nullable: false),
-                    TipoFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    PokemonEquipaId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Categoria = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Dano = table.Column<int>(type: "int", nullable: false),
+                    Precisao = table.Column<int>(type: "int", nullable: false),
+                    PP = table.Column<int>(type: "int", nullable: false),
+                    Prioridade = table.Column<int>(type: "int", nullable: false),
+                    TipoFk = table.Column<int>(type: "int", nullable: false),
+                    PokemonEquipaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -458,20 +460,20 @@ namespace pokecatalogo.Migrations
                         column: x => x.TipoFk,
                         principalTable: "Tipos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Equipas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    NomeEquipa = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Descricao = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
-                    DataCriacao = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DonoFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    AtaqueId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeEquipa = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Descricao = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DonoFk = table.Column<int>(type: "int", nullable: false),
+                    AtaqueId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -486,76 +488,21 @@ namespace pokecatalogo.Migrations
                         column: x => x.DonoFk,
                         principalTable: "Utilizadores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comentarios",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Conteudo = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    DataComentario = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UtilizadorFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    EquipaFk = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comentarios", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comentarios_Equipas_EquipaFk",
-                        column: x => x.EquipaFk,
-                        principalTable: "Equipas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comentarios_Utilizadores_UtilizadorFk",
-                        column: x => x.UtilizadorFk,
-                        principalTable: "Utilizadores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Likes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    DataLike = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UtilizadorFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    EquipaFk = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Likes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Likes_Equipas_EquipaFk",
-                        column: x => x.EquipaFk,
-                        principalTable: "Equipas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Likes_Utilizadores_UtilizadorFk",
-                        column: x => x.UtilizadorFk,
-                        principalTable: "Utilizadores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PokemonEquipas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    EquipaFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    PokemonFk = table.Column<int>(type: "INTEGER", nullable: false),
-                    Nivel = table.Column<int>(type: "INTEGER", nullable: false),
-                    Alcunha = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    PosicaoNaEquipa = table.Column<int>(type: "INTEGER", nullable: false),
-                    HabilidadeFk = table.Column<int>(type: "INTEGER", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EquipaFk = table.Column<int>(type: "int", nullable: false),
+                    PokemonFk = table.Column<int>(type: "int", nullable: false),
+                    Nivel = table.Column<int>(type: "int", nullable: false),
+                    Alcunha = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    PosicaoNaEquipa = table.Column<int>(type: "int", nullable: false),
+                    HabilidadeFk = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -565,7 +512,7 @@ namespace pokecatalogo.Migrations
                         column: x => x.EquipaFk,
                         principalTable: "Equipas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PokemonEquipas_Habilidades_HabilidadeFk",
                         column: x => x.HabilidadeFk,
@@ -576,7 +523,7 @@ namespace pokecatalogo.Migrations
                         column: x => x.PokemonFk,
                         principalTable: "Pokemons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.InsertData(
@@ -587,7 +534,32 @@ namespace pokecatalogo.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "admin", 0, "fe626d10-17f8-4768-8818-895627758300", "admin@mail.pt", true, false, null, "ADMIN@MAIL.PT", "ADMIN@MAIL.PT", "AQAAAAIAAYagAAAAEIA0h1QcKBRGBPyBH7wNwrkzG6sHzJkIY+3B0fgCymH32MENzVlqf1vq9O5NIjzcew==", null, false, "1bcbd0a7-5c9d-4510-811a-cd5eee6c0dbe", false, "admin@mail.pt" });
+                values: new object[] { "admin", 0, "fe626d10-17f8-4768-8818-895627758300", "admin@mail.pt", true, false, null, "ADMIN@MAIL.PT", "ADMIN@MAIL.PT", "AQAAAAIAAYagAAAAEKldZ7+5+z8CcQT1Ympxy7ULMdLOs5NtCJ/dbxxUnMU2fA/weIwvm8HieQ+2xKFLJg==", null, false, "1bcbd0a7-5c9d-4510-811a-cd5eee6c0dbe", false, "admin@mail.pt" });
+
+            migrationBuilder.InsertData(
+                table: "Tipos",
+                columns: new[] { "Id", "Cor", "Efetivo", "Fraquezas", "Imunidades", "Nome", "Resistências" },
+                values: new object[,]
+                {
+                    { 1, "#A8A878", null, 6, 13, 0, null },
+                    { 2, "#F08030", 4, 2, null, 1, 16 },
+                    { 3, "#6890F0", 12, 4, null, 2, 1 },
+                    { 4, "#F8D030", 2, 8, null, 3, 9 },
+                    { 5, "#78C850", 8, 1, null, 4, 2 },
+                    { 6, "#98D8D8", 9, 1, null, 5, 5 },
+                    { 7, "#C03028", 0, 10, null, 6, 12 },
+                    { 8, "#A040A0", 17, 8, null, 7, 4 },
+                    { 9, "#E0C068", 16, 2, 3, 8, 7 },
+                    { 10, "#A890F0", 6, 3, 8, 9, 4 },
+                    { 11, "#F85888", 7, 15, null, 10, 6 },
+                    { 12, "#A8B820", 10, 1, null, 11, 4 },
+                    { 13, "#B8A038", 11, 2, null, 12, 0 },
+                    { 14, "#705898", 10, 15, 0, 13, 7 },
+                    { 15, "#7038F8", 14, 17, null, 14, 1 },
+                    { 16, "#705848", 13, 6, 10, 15, 13 },
+                    { 17, "#B8B8D0", 12, 1, 7, 16, 17 },
+                    { 18, "#EE99AC", 15, 16, 14, 17, 6 }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -603,7 +575,8 @@ namespace pokecatalogo.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -629,7 +602,8 @@ namespace pokecatalogo.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AtaquePokemon_PokemonId",
@@ -645,16 +619,6 @@ namespace pokecatalogo.Migrations
                 name: "IX_Ataques_TipoFk",
                 table: "Ataques",
                 column: "TipoFk");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comentarios_EquipaFk",
-                table: "Comentarios",
-                column: "EquipaFk");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comentarios_UtilizadorFk",
-                table: "Comentarios",
-                column: "UtilizadorFk");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Equipas_AtaqueId",
@@ -675,22 +639,13 @@ namespace pokecatalogo.Migrations
                 name: "IX_Evolucoes_PokemonFk2",
                 table: "Evolucoes",
                 column: "PokemonFk2",
-                unique: true);
+                unique: true,
+                filter: "[PokemonFk2] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Habilidades_PokemonFk",
                 table: "Habilidades",
                 column: "PokemonFk");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Likes_EquipaFk",
-                table: "Likes",
-                column: "EquipaFk");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Likes_UtilizadorFk",
-                table: "Likes",
-                column: "UtilizadorFk");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LocalizacaoJogos_JogoFk",
@@ -794,13 +749,7 @@ namespace pokecatalogo.Migrations
                 name: "AtaquePokemon");
 
             migrationBuilder.DropTable(
-                name: "Comentarios");
-
-            migrationBuilder.DropTable(
                 name: "Evolucoes");
-
-            migrationBuilder.DropTable(
-                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "LocalizacaoJogos");

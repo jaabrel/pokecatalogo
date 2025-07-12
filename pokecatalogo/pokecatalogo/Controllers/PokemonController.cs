@@ -53,7 +53,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Imagem,ImagemShiny")] Pokemon pokemon, List<int> Tipos)
+        public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,PokeApiId")] Pokemon pokemon, List<int> Tipos)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Tipo1Fk,Tipo2Fk,Imagem,ImagemShiny")] Pokemon pokemon)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,PokeApiId")] Pokemon pokemon)
         {
             if (id != pokemon.Id)
             {

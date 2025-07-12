@@ -33,12 +33,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Tipos.Last().Nome)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagemShiny)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -67,10 +61,10 @@
                 @Html.DisplayFor(modelItem => item.Tipos.Last().Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Imagem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagemShiny)
+                <img src="@item.ImagemUrl"
+                     alt="@item.Nome"
+                     class="img-thumbnail"
+                     style="max-height: 100px; max-width: 100px;" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

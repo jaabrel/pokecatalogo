@@ -7,6 +7,7 @@
 <h1>Details</h1>
 
 <div>
+    <img src="@Model.ImagemUrl" alt="@Model.Nome" class="img-thumbnail" style="max-height: 150px; max-width: 150px;" />
     <h4>Pokemon</h4>
     <hr />
     <dl class="row">
@@ -51,18 +52,6 @@
                 }
 
             }
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imagem)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imagem)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagemShiny)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagemShiny)
         </dd>
     </dl>
 </div>

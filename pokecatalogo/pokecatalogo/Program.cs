@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.OpenApi.Models;
 using pokecatalogo.Data;
 using pokecatalogo.Data.DbInitializerDev;
@@ -16,7 +17,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -42,7 +43,7 @@ builder.Services.AddAuthentication()
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = false,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
@@ -103,13 +104,15 @@ builder.Services.AddSignalR();
 
 builder.Services.AddDistributedMemoryCache();
 
+builder.Services.AddTransient<IEmailSender, pokecatalogo.Services.SmtpEmailSender>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
-    app.UseItToSeedSqlServer();
+    //app.UseItToSeedSqlServer();
 }
 else
 {
