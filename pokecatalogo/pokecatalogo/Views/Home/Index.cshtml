@@ -3,42 +3,69 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center" xmlns="http://www.w3.org/1999/html">
-    <header class="pokebola-header">
-        <div class="pokebola-top"></div>
-        
-        <h1 class="display-4">Bem vindo ao PokéCatálogo</h1>
-    </header>
-    <section class="pesquisa-section mb-5">
-    <div class="pesquisa-container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <form method="get" asp-page="/Index" class="pokebola-pesquisa">
-                    <div class="input-group">
-                        <input type="text" class="form-control pokebola-pesquisa-input" name="pesquisa" placeholder="Pikachu" required/>
-                        <button class="btn btn-primary pokebola-pesquisa-btn" type="submit">Procurar</button>
-                    </div>
-                </form>
+<div class="d-flex flex-column align-items-center justify-content-center min-vh-75">
+    <img src="/PokecatáLogo_150x150.png" alt="Logo" class="mb-4 mt-4" style="width: 120px; height: 120px; object-fit: contain; border-radius: 50%; border: 4px solid #FF0000; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.10);"/>
+    <h1 id="pokebola-instrucao" class="display-4 mb-4 text-center">Pressione no centro da Pokébola.</h1>
+    <div id="pokebola-gigante-container" class="pokebola-gigante position-relative d-flex align-items-center justify-content-center mb-4 w-100" style="max-width: 480px;">
+        <div class="pokebola-gigante-top position-absolute w-100"></div>
+        <div class="pokebola-gigante-middle position-absolute w-100"></div>
+        <div class="pokebola-gigante-bottom position-absolute w-100"></div>
+        <button id="pokebola-gigante-btn" class="pokebola-gigante-btn d-flex align-items-center justify-content-center p-0 border-0 bg-transparent" aria-label="Abrir pesquisa">
+            <img src="/PokecatáLogo_150x150.png" alt="Logo" class="pokebola-gigante-logo mx-auto d-block"/>
+            <span class="pokebola-gigante-btn-centro"></span>
+        </button>
+    </div>
+</div>
+<div id="pesquisa-revelada" class="d-none pesquisa-revelada-container min-vh-75 d-flex flex-column align-items-center justify-content-start pt-5">
+    <section class="pesquisa-section w-100 d-flex justify-content-center">
+        <div class="pesquisa-container container-fluid px-2 px-md-0 d-flex justify-content-center">
+            <div class="row justify-content-center w-100" style="max-width: 500px;">
+                <div class="col-12">
+                    <form id="form-pesquisa" method="get" asp-page="/Index" class="pokebola-pesquisa p-3 p-md-4 rounded-5 shadow-lg bg-white border border-3 border-danger position-relative animate__animated animate__fadeInDown w-100" style="max-width: 500px;">
+                        <div class="input-group input-group-lg">
+                            <input id="input-pesquisa" type="text" class="form-control border-0 py-3 px-4 pokebola-pesquisa-input rounded-start-pill fs-4" name="pesquisa" placeholder="Pesquise um Pokémon..." required style="background: #fff8f8;" autocomplete="off"/>
+                            <button class="btn btn-danger border-0 px-5 pokebola-pesquisa-btn rounded-end-pill fs-4 fw-bold d-flex align-items-center justify-content-center" type="submit">
+                                <span class="me-2">Procurar</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+                            </button>
+                        </div>
+                        <div id="mensagem-erro" class="text-center mt-3 d-none">
+                            <span class="badge bg-danger bg-gradient fs-5 px-4 py-2 shadow">Pokémon não encontrado</span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     </section>
 </div>
-    
+@section Scripts {
+<script>
+    document.getElementById('pokebola-gigante-btn').addEventListener('click', function() {
+        document.getElementById('pokebola-gigante-container').classList.add('d-none');
+        document.getElementById('pesquisa-revelada').classList.remove('d-none');
+        document.getElementById('pokebola-instrucao').classList.add('d-none');
+    });
 
-<section class="pokemon-destaque mt-5">
-    <h2>Pokemon Destaque</h2>
-    <div class="pokemon-destaque-container">
-        <a href="pokemonURL" class="pokemon-destaque-imagem-link">
-        <img src="pokemon.imagemURL" alt="pokemon.name" class="pokemon-imagem-btn" />
-        <div class="pokemon-imagem-hover">
-        <span>Ver Detalhes</span>
-        </div>
-    </a>
-    <div class="pokemon-imagem-caption">
-        <span class="pokemon-destaque-número"></span>  
-        <h3 class="pokemon-destaque-nome">Nome</h3>
-    </div>
-    </div>
-</section>
+    // Pesquisa AJAX simulada para mostrar mensagem de erro
+    document.getElementById('form-pesquisa').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const nome = document.getElementById('input-pesquisa').value.trim();
+        // Simulação: AJAX para endpoint real
+        let encontrado = false;
+        try {
+            const resp = await fetch(`/Pokemon/Existe?nome=${encodeURIComponent(nome)}`);
+            encontrado = await resp.json();
+        } catch {
+            encontrado = false;
+        }
+        if (!encontrado) {
+            document.getElementById('mensagem-erro').classList.remove('d-none');
+        } else {
+            document.getElementById('mensagem-erro').classList.add('d-none');
+            this.submit();
+        }
+    });
+</script>
+}
+    
 
