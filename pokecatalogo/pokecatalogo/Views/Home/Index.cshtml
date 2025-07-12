@@ -21,9 +21,9 @@
         <div class="pesquisa-container container-fluid px-2 px-md-0 d-flex justify-content-center">
             <div class="row justify-content-center w-100" style="max-width: 500px;">
                 <div class="col-12">
-                    <form id="form-pesquisa" method="get" asp-page="/Index" class="pokebola-pesquisa p-3 p-md-4 rounded-5 shadow-lg bg-white border border-3 border-danger position-relative animate__animated animate__fadeInDown w-100" style="max-width: 500px;">
+                    <form id="form-pesquisa" method="get" action="/Pokemon/PorNome" class="pokebola-pesquisa p-3 p-md-4 rounded-5 shadow-lg bg-white border border-3 border-danger position-relative animate__animated animate__fadeInDown w-100" style="max-width: 500px;">
                         <div class="input-group input-group-lg">
-                            <input id="input-pesquisa" type="text" class="form-control border-0 py-3 px-4 pokebola-pesquisa-input rounded-start-pill fs-4" name="pesquisa" placeholder="Pesquise um Pokémon..." required style="background: #fff8f8;" autocomplete="off"/>
+                            <input id="input-pesquisa" type="text" class="form-control border-0 py-3 px-4 pokebola-pesquisa-input rounded-start-pill fs-4" name="nome" placeholder="Pesquise um Pokémon..." required style="background: #fff8f8;" autocomplete="off"/>
                             <button class="btn btn-danger border-0 px-5 pokebola-pesquisa-btn rounded-end-pill fs-4 fw-bold d-flex align-items-center justify-content-center" type="submit">
                                 <span class="me-2">Procurar</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>

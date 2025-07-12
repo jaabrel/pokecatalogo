@@ -38,6 +38,12 @@ namespace pokecatalogo.Controllers
             var pokemon = await _context.Pokemons
                 .Include(p => p.Tipo1)
                 .Include(p => p.Tipo2)
+                .Include(p => p.PokemonAtaques).ThenInclude(pa => pa.Ataque).ThenInclude(a => a.Tipo)
+                .Include(p => p.PokemonHabilidades).ThenInclude(ph => ph.Habilidade)
+                .Include(p => p.OrigemEvolucoes).ThenInclude(e => e.PokemonEvoluido)
+                .Include(p => p.FinalEvolucoes).ThenInclude(e => e.PokemonOrigem)
+                .Include(p => p.PokemonStats)
+                .Include(p => p.PokemonLocalizacoes).ThenInclude(pl => pl.Localizacao)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pokemon == null)
             {
@@ -162,6 +168,18 @@ namespace pokecatalogo.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Pokemon/PorNome?nome=nome
+        [HttpGet]
+        public async Task<IActionResult> PorNome(string nome)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                return NotFound();
+            var pokemon = await _context.Pokemons.FirstOrDefaultAsync(p => p.Nome.ToLower() == nome.ToLower());
+            if (pokemon == null)
+                return NotFound();
+            return RedirectToAction("Details", new { id = pokemon.Id });
         }
 
         private bool PokemonExists(int id)
