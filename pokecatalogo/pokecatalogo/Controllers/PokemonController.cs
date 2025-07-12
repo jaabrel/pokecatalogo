@@ -22,25 +22,6 @@ namespace pokecatalogo.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
-        {
-            ViewData["NameSort"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["TypeSort"] = sortOrder == "type" ? "type_desc" : "type";
-            
-            var query = _context.Pokemons.Include(p => p.Tipos).AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                searchString = searchString.ToLower();
-                query = query.Where(p =>
-                    p.Nome.ToLower().Contains(searchString));
-            }
-
-            ViewData["CurrentFilter"] = searchString;
-
-            return View(await query.ToListAsync());
-        }
-
         // GET: Pokemon/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -72,7 +53,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Imagem,ImagemShiny")] Pokemon pokemon, List<int> Tipos)
+        public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,PokeApiId")] Pokemon pokemon, List<int> Tipos)
         {
             if (ModelState.IsValid)
             {
@@ -121,7 +102,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,Tipo1Fk,Tipo2Fk,Imagem,ImagemShiny")] Pokemon pokemon)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,PokeApiId")] Pokemon pokemon)
         {
             if (id != pokemon.Id)
             {

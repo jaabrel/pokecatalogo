@@ -16,13 +16,16 @@ public class Tipo
     public string Cor { get; set; }
     
 
-    public TiposEnum Fraquezas { get; set; }
+    public List<TiposEnum> Fraquezas { get; set; } = new();
 
-    public TiposEnum? Resistências { get; set; }
+    public List<TiposEnum> Resistências { get; set; } = new();
     
-    public TiposEnum? Imunidades { get; set; }
+    public List<TiposEnum> Imunidades { get; set; } = new();
     
-    public TiposEnum? Efetivo { get; set; }
+    /// <summary>
+    /// List of types this type is effective against (Efetivo). Nullable if none.
+    /// </summary>
+    public List<TiposEnum>? Efetivo { get; set; }
     
     public ICollection<Pokemon> Pokemons { get; set; }
     

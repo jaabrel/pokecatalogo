@@ -142,8 +142,21 @@ namespace pokecatalogo.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Bem-vindo ao Pokécatálogo! Confirme o seu email",
+                        $@"<div style='font-family: Arial, sans-serif; background: #f8f8f8; padding: 30px;'>
+                            <div style='max-width: 500px; margin: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #e0e0e0; padding: 30px;'>
+                                <h2 style='color: #e3350d; text-align: center;'>Bem-vindo ao Pokécatálogo!</h2>
+                                <p>Olá, treinador!</p>
+                                <p>Obrigado por se registar no <b>Pokécatálogo</b>. Para começar a explorar e capturar todos os Pokémon, por favor confirme o seu email clicando no botão abaixo:</p>
+                                <div style='text-align: center; margin: 30px 0;'>
+                                    <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' style='background: #e3350d; color: #fff; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-size: 18px; font-weight: bold;'>Confirmar Email</a>
+                                </div>
+                                <p style='color: #888; font-size: 13px;'>Se não foi você que criou esta conta, pode ignorar este email.</p>
+                                <div style='text-align: center; margin-top: 30px;'>
+                                    <img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png' alt='Pikachu' style='height: 60px;' />
+                                </div>
+                            </div>
+                        </div>");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

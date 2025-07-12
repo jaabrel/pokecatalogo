@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokecatalogo.Data;
 
@@ -11,9 +12,11 @@ using pokecatalogo.Data;
 namespace pokecatalogo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250712170926_Seedone")]
+    partial class Seedone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,7 +175,7 @@ namespace pokecatalogo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.PT",
                             NormalizedUserName = "ADMIN@MAIL.PT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO/l9GgNWHNxsEmfaTQVA0vt82LmDp0YcPTFQxGRezBfrsXRCU3TWgo235PeaQG/+Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA3YOSmqxMqTxsYdRs4kZbx7JiCOMjJy9K9VAv3iOAUEpeXEgazVkqXZYLbwyc0Khw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "1bcbd0a7-5c9d-4510-811a-cd5eee6c0dbe",
                             TwoFactorEnabled = false,
@@ -701,13 +704,13 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Ataque", null)
                         .WithMany()
                         .HasForeignKey("PokemonAtaquesId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Pokemon", null)
                         .WithMany()
                         .HasForeignKey("PokemonId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -767,13 +770,13 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Pokemon", null)
                         .WithMany()
                         .HasForeignKey("PokemonsId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Tipo", null)
                         .WithMany()
                         .HasForeignKey("TiposId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -786,7 +789,7 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Tipo", "Tipo")
                         .WithMany()
                         .HasForeignKey("TipoFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Tipo");
@@ -801,7 +804,7 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Utilizadores", "Dono")
                         .WithMany("ListaEquipas")
                         .HasForeignKey("DonoFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Dono");
@@ -812,7 +815,7 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Pokemon", "PokemonOrigem")
                         .WithMany("FinalEvolucoes")
                         .HasForeignKey("PokemonFk1")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Pokemon", "PokemonEvoluido")
@@ -829,7 +832,7 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
                         .WithMany()
                         .HasForeignKey("PokemonFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pokemon");
@@ -840,13 +843,13 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Jogo", "Jogo")
                         .WithMany("LocalizacaoJogos")
                         .HasForeignKey("JogoFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Localizacao", "Localizacao")
                         .WithMany("LocalizacaoJogos")
                         .HasForeignKey("LocalizacaoFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Jogo");
@@ -866,7 +869,7 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Equipa", "Equipa")
                         .WithMany("Pokemons")
                         .HasForeignKey("EquipaFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Habilidade", "Habilidade")
@@ -876,7 +879,7 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
                         .WithMany()
                         .HasForeignKey("PokemonFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Equipa");
@@ -891,13 +894,13 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Habilidade", "Habilidade")
                         .WithMany("PokemonHabilidades")
                         .HasForeignKey("HabilidadeFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
                         .WithMany("PokemonHabilidades")
                         .HasForeignKey("PokemonFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Habilidade");
@@ -910,13 +913,13 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Localizacao", "Localizacao")
                         .WithMany()
                         .HasForeignKey("LocalizacaoFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
                         .WithMany("PokemonLocalizacoes")
                         .HasForeignKey("PokemonFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Localizacao");
@@ -929,7 +932,7 @@ namespace pokecatalogo.Migrations
                     b.HasOne("pokecatalogo.Models.Pokemon", "Pokemon")
                         .WithMany("PokemonStats")
                         .HasForeignKey("PokemonFk")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pokemon");

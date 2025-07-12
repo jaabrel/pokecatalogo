@@ -1,37 +1,83 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿﻿<!DOCTYPE html>
+<html lang="pt-pt">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - pokecatalogo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/pokecatalogo.styles.css" asp-append-version="true"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <style>
+        .pokebola-header {
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+        }
+        .pokebola-top {
+            height: 50%;
+            background-color: #FF0000;
+            border-bottom: 5px solid black;
+        }
+        .pokebola-bottom {
+            height: 50%;
+            background-color: white;
+            border-bottom: 5px solid black;
+        }
+        .pokebola-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border: 8px solid black;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        .pokebola-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border: 4px solid black;
+            border-radius: 50%;
+        }
+   
+        
+    </style>
 </head>
-<body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">pokecatalogo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Pokemon" asp-action="Index">Pokemon</a>
-                    </li>
-                </ul>
-                <partial name="_LoginPartial"/>
+<body class="tema-pokebola">
+
+<header class="pokebola-header position-relative">
+    <div class="pokebola-top position-relative">
+        <div class="container-fluid h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-4 d-flex justify-content-start">
+                    <a class="nav-link text-white fw-bold fs-5 px-4" asp-area="" asp-controller="Home" asp-action="Index" style="text-shadow: 1px 1px 4px #000;">Home</a>
+                </div>
+                <div class="col-4"></div>
+                <div class="col-4 d-flex justify-content-end gap-2">
+                    <a class="nav-link text-white fw-bold fs-5 px-4" asp-area="" asp-controller="Home" asp-action="Privacy" style="text-shadow: 1px 1px 4px #000;">Privacy</a>
+                    <a class="nav-link text-white fw-bold fs-5 px-3" asp-area="Pokemon" asp-controller="Pokemon" style="text-shadow: 1px 1px 4px #000;">Pokemon</a>
+                    <a class="nav-link text-white fw-bold fs-5 px-3" asp-area="Identity" asp-page="/Account/Register" style="text-shadow: 1px 1px 4px #000;">Register</a>
+                    <a class="nav-link text-white fw-bold fs-5 px-3" asp-area="Identity" asp-page="/Account/Login" style="text-shadow: 1px 1px 4px #000;">Login</a>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="pokebola-center d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle">
+        <div class="rounded-circle bg-white border border-4 border-dark" style="width: 48px; height: 48px;"></div>
+    </div>
+    <div class="pokebola-bottom"></div>
+
+    <nav class="navbar navbar-expand navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <img src="/PokecatáLogo_150x150.png" alt="Logo" class="logo-icon me-2"/>
+            <a class="navbar-brand me-auto" asp-area="" asp-controller="Home" asp-action="Index">PokeCatálogo</a>
+            <partial name="_LoginPartial"/>
         </div>
     </nav>
 </header>
@@ -41,8 +87,9 @@
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
+<footer class="footer border-top footer text-muted">
+    <div class="footer-button"></div>
+    <div class="container py-4">
         &copy; 2025 - pokecatalogo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </footer>

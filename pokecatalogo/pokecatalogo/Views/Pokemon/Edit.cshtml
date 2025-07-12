@@ -6,6 +6,8 @@
 
 <h1>Edit</h1>
 
+<img src="@Model.ImagemUrl" alt="@Model.Nome" class="img-thumbnail" style="max-height: 150px; max-width: 150px;" />
+
 <h4>Pokemon</h4>
 <hr />
 <div class="row">
@@ -45,16 +47,6 @@
             <div class="form-group">
                 <label asp-for="Tipos" class="control-label"></label>
                 <select name="Tipos" class ="form-control" asp-items="ViewBag.Tipo1Fk"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Imagem" class="control-label"></label>
-                <input asp-for="Imagem" class="form-control" />
-                <span asp-validation-for="Imagem" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImagemShiny" class="control-label"></label>
-                <input asp-for="ImagemShiny" class="form-control" />
-                <span asp-validation-for="ImagemShiny" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
