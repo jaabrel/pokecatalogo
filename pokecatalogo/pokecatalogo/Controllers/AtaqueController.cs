@@ -48,7 +48,7 @@ namespace pokecatalogo.Controllers
         // GET: Ataque/Create
         public IActionResult Create()
         {
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id");
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Categoria,TipoFk")] Ataque ataque)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace pokecatalogo.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
             return View(ataque);
         }
 
@@ -82,7 +82,7 @@ namespace pokecatalogo.Controllers
             {
                 return NotFound();
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
             return View(ataque);
         }
 
@@ -91,7 +91,7 @@ namespace pokecatalogo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Categoria,TipoFk")] Ataque ataque)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
             if (id != ataque.Id)
             {
@@ -118,7 +118,7 @@ namespace pokecatalogo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Id", ataque.TipoFk);
+            ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor", ataque.TipoFk);
             return View(ataque);
         }
 

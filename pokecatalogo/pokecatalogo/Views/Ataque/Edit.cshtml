@@ -24,6 +24,31 @@
                 <span asp-validation-for="Categoria" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dano" class="control-label"></label>
+                <input asp-for="Dano" class="form-control" />
+                <span asp-validation-for="Dano" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precisao" class="control-label"></label>
+                <input asp-for="Precisao" class="form-control" />
+                <span asp-validation-for="Precisao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PP" class="control-label"></label>
+                <input asp-for="PP" class="form-control" />
+                <span asp-validation-for="PP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prioridade" class="control-label"></label>
+                <input asp-for="Prioridade" class="form-control" />
+                <span asp-validation-for="Prioridade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="TipoFk" class="control-label"></label>
                 <select asp-for="TipoFk" class="form-control" asp-items="ViewBag.TipoFk"></select>
                 <span asp-validation-for="TipoFk" class="text-danger"></span>

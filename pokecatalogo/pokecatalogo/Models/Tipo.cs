@@ -5,19 +5,50 @@ namespace pokecatalogo.Models;
 
 public class Tipo
 {
+    
     [Key]
     public int Id { get; set; }
     
     [Required]
-    public string Nome { get; set; }
+    public TiposEnum Nome { get; set; }
     
     [Required]
     public string Cor { get; set; }
     
-    [Required]
-    public string Fraquezas { get; set; }
+
+    public List<TiposEnum> Fraquezas { get; set; } = new();
+
+    public List<TiposEnum> Resistências { get; set; } = new();
     
-    public ICollection<Pokemon> PokemonsPrimarios { get; set; }
+    public List<TiposEnum> Imunidades { get; set; } = new();
     
-    public ICollection<Pokemon> PokemonsSecundarios { get; set; }
+    /// <summary>
+    /// List of types this type is effective against (Efetivo). Nullable if none.
+    /// </summary>
+    public List<TiposEnum>? Efetivo { get; set; }
+    
+    public ICollection<Pokemon> Pokemons { get; set; }
+    
+}
+
+public enum TiposEnum
+{
+    Normal,
+    Fogo,
+    Água,
+    Eletricidade,
+    Erva,
+    Gelo,
+    Lutador,
+    Veneno,
+    Terra,
+    Voador,
+    Psíquico,
+    Inseto,
+    Pedra,
+    Fantasma,
+    Dragão,
+    Escuridão,
+    Metal,
+    Fada
 }

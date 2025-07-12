@@ -1,0 +1,54 @@
+@model pokecatalogo.Models.Tipo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Tipo</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cor)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fraquezas)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fraquezas)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Resistências)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Resistências)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Imunidades)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Imunidades)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Efetivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Efetivo)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
