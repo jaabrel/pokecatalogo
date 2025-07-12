@@ -5,11 +5,7 @@ namespace pokecatalogo.Models;
 
 public class PokemonStats
 {
-    [Display(Name = "Pokemon")]
-    [ForeignKey(nameof(Pokemon))]
-    public int PokemonFk { get; set; }
-    
-    public Pokemon Pokemon { get; set; }
+    public int Id { get; set; }
     
     [Display(Name = "Pontos de Vida")]
     public int Hp { get; set; }
@@ -28,4 +24,11 @@ public class PokemonStats
     
     [Display(Name = "Velocidade")]
     public int Speed { get; set; }
+    
+    [Display(Name = "Pokemon")]
+    [ForeignKey(nameof(Pokemon))]
+    public int PokemonFk { get; set; }
+    
+    public Pokemon Pokemon { get; set; }
+    
 }

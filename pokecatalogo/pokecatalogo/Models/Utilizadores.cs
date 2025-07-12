@@ -28,4 +28,6 @@ public class Utilizadores
     
     [StringLength(50)]
     public string? IdentityUserName { get; set; }
+    
+    public ICollection<Equipa> ListaEquipas { get; set; }
 }

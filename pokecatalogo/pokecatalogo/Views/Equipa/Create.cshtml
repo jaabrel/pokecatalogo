@@ -1,4 +1,4 @@
-@model pokecatalogo.Models.Equipa
+@model pokecatalogo.Models.Ataque
 
 @{
     ViewData["Title"] = "Create";
@@ -6,25 +6,50 @@
 
 <h1>Create</h1>
 
-<h4>Equipa</h4>
+<h4>Ataque</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NomeEquipa" class="control-label"></label>
-                <input asp-for="NomeEquipa" class="form-control" />
-                <span asp-validation-for="NomeEquipa" class="text-danger"></span>
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                <label asp-for="Categoria" class="control-label"></label>
+                <input asp-for="Categoria" class="form-control" />
+                <span asp-validation-for="Categoria" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DonoFk" class="control-label"></label>
-                <select asp-for="DonoFk" class ="form-control" asp-items="ViewBag.DonoFk"></select>
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dano" class="control-label"></label>
+                <input asp-for="Dano" class="form-control" />
+                <span asp-validation-for="Dano" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precisao" class="control-label"></label>
+                <input asp-for="Precisao" class="form-control" />
+                <span asp-validation-for="Precisao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PP" class="control-label"></label>
+                <input asp-for="PP" class="form-control" />
+                <span asp-validation-for="PP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prioridade" class="control-label"></label>
+                <input asp-for="Prioridade" class="form-control" />
+                <span asp-validation-for="Prioridade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoFk" class="control-label"></label>
+                <select asp-for="TipoFk" class ="form-control" asp-items="ViewBag.TipoFk"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
