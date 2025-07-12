@@ -1,4 +1,5 @@
-﻿@{
+﻿﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -38,31 +39,32 @@
     </section>
 </div>
 @section Scripts {
-<script>
-    document.getElementById('pokebola-gigante-btn').addEventListener('click', function() {
-        document.getElementById('pokebola-gigante-container').classList.add('d-none');
-        document.getElementById('pesquisa-revelada').classList.remove('d-none');
-        document.getElementById('pokebola-instrucao').classList.add('d-none');
-    });
+    <script>
+        document.getElementById('pokebola-gigante-btn').addEventListener('click', function() {
+            document.getElementById('pokebola-gigante-container').classList.add('d-none');
+            document.getElementById('pesquisa-revelada').classList.remove('d-none');
+            document.getElementById('pokebola-instrucao').classList.add('d-none');
+        });
 
-    // Pesquisa AJAX simulada para mostrar mensagem de erro
-    document.getElementById('form-pesquisa').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const nome = document.getElementById('input-pesquisa').value.trim();
-        // Simulação: AJAX para endpoint real
-        let encontrado = false;
-        try {
-            const resp = await fetch(`/Pokemon/Existe?nome=${encodeURIComponent(nome)}`);
-            encontrado = await resp.json();
-        } catch {
-            encontrado = false;
-        }
-        if (!encontrado) {
-            document.getElementById('mensagem-erro').classList.remove('d-none');
-        } else {
-            document.getElementById('mensagem-erro').classList.add('d-none');
-            this.submit();
-        }
-    });
-</script>
+        // Pesquisa AJAX simulada para mostrar mensagem de erro
+        document.getElementById('form-pesquisa').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('input-pesquisa').value.trim();
+            // Simulação: AJAX para endpoint real
+            let encontrado = false;
+            try {
+                const resp = await fetch(`/Pokemon/Existe?nome=${encodeURIComponent(nome)}`);
+                encontrado = await resp.json();
+            } catch {
+                encontrado = false;
+            }
+            if (!encontrado) {
+                document.getElementById('mensagem-erro').classList.remove('d-none');
+            } else {
+                document.getElementById('mensagem-erro').classList.add('d-none');
+                this.submit();
+            }
+        });
+    </script>
 }
+    
