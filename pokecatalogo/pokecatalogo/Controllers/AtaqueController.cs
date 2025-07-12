@@ -5,18 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using pokecatalogo.Data;
 using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
+    [Authorize] // Require authentication for all actions
     public class AtaqueController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AtaqueController(ApplicationDbContext context)
+        public AtaqueController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Ataque
@@ -46,6 +51,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Ataque/Create
+        [Authorize(Roles = "Administrador")] // Only administrators can create Ataque
         public IActionResult Create()
         {
             ViewData["TipoFk"] = new SelectList(_context.Tipos, "Id", "Cor");
@@ -53,10 +59,9 @@ namespace pokecatalogo.Controllers
         }
 
         // POST: Ataque/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can create Ataque
         public async Task<IActionResult> Create([Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
             if (ModelState.IsValid)
@@ -70,6 +75,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Ataque/Edit/5
+        [Authorize(Roles = "Administrador")] // Only administrators can edit Ataque
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,10 +93,9 @@ namespace pokecatalogo.Controllers
         }
 
         // POST: Ataque/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can edit Ataque
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Categoria,Descricao,Dano,Precisao,PP,Prioridade,TipoFk")] Ataque ataque)
         {
             if (id != ataque.Id)
@@ -123,6 +128,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Ataque/Delete/5
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Ataque
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,6 +150,7 @@ namespace pokecatalogo.Controllers
         // POST: Ataque/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Ataque
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var ataque = await _context.Ataques.FindAsync(id);

@@ -9,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using pokecatalogo.Data;
 using pokecatalogo.Data.DbInitializerDev;
 using pokecatalogo.Services.Jwt;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +22,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// Add authorization policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CanEditOwnProfile", policy =>
+        policy.RequireAuthenticatedUser());
+});
 
 builder.Services.AddSession(options =>
 {
@@ -106,13 +115,24 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddTransient<IEmailSender, pokecatalogo.Services.SmtpEmailSender>();
 
+
 var app = builder.Build();
+
+// Seed roles and admin user
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<ApplicationDbContext>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await pokecatalogo.Data.DbInitializerDev.DbInitializer.Initialize(dbContext, userManager, roleManager);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
-    //app.UseItToSeedSqlServer();
+    app.UseItToSeedSqlServer();
 }
 else
 {

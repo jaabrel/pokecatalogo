@@ -1,54 +1,25 @@
 @model pokecatalogo.Models.Tipo
-
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Tipo";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Tipo</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cor)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fraquezas)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fraquezas)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Resistências)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Resistências)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imunidades)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imunidades)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Efetivo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Efetivo)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="d-flex justify-content-center align-items-center min-vh-75">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 480px; width: 100%;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4 fw-bold">Detalhes do Tipo</h2>
+            <div class="mb-3 text-center">
+                <span class="badge rounded-pill mb-2" style="background:@Model.Cor; color:#fff; font-size:1.2em;">@Model.Nome</span>
+            </div>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item d-flex justify-content-between"><span class="fw-semibold">Fraquezas:</span> <span>@Model.Fraquezas</span></li>
+                <li class="list-group-item d-flex justify-content-between"><span class="fw-semibold">Resistências:</span> <span>@Model.Resistências</span></li>
+                <li class="list-group-item d-flex justify-content-between"><span class="fw-semibold">Imunidades:</span> <span>@Model.Imunidades</span></li>
+                <li class="list-group-item d-flex justify-content-between"><span class="fw-semibold">Efetivo:</span> <span>@Model.Efetivo</span></li>
+            </ul>
+            <div class="d-flex justify-content-between gap-2">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning rounded-pill px-4">Editar</a>
+                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Voltar</a>
+            </div>
+        </div>
+    </div>
 </div>

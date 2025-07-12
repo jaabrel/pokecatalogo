@@ -1,18 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using pokecatalogo.Data;
 using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
-{
+{// Require authentication for all actions
     public class PokemonController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public PokemonController(ApplicationDbContext context)
+        public PokemonController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Pokemon
@@ -42,6 +46,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Pokemon/Create
+        [Authorize(Roles = "Administrador")] // Only administrators can create Pokemon
         public IActionResult Create()
         {
             ViewData["Tipo1Fk"] = new SelectList(_context.Tipos, "Id", "Nome");
@@ -49,10 +54,9 @@ namespace pokecatalogo.Controllers
         }
 
         // POST: Pokemon/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can create Pokemon
         public async Task<IActionResult> Create([Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,PokeApiId")] Pokemon pokemon, List<int> Tipos)
         {
             if (ModelState.IsValid)
@@ -69,8 +73,6 @@ namespace pokecatalogo.Controllers
                         .ForEach(t => pokemon.Tipos.Add(t));
                 }
                 
-               
-                
                 _context.Add(pokemon);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -80,6 +82,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Pokemon/Edit/5
+        [Authorize(Roles = "Administrador")] // Only administrators can edit Pokemon
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,10 +101,9 @@ namespace pokecatalogo.Controllers
         }
 
         // POST: Pokemon/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can edit Pokemon
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DescricaoPokedex,Altura,Peso,Especie,PokeApiId")] Pokemon pokemon)
         {
             if (id != pokemon.Id)
@@ -134,6 +136,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Pokemon/Delete/5
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Pokemon
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,6 +158,7 @@ namespace pokecatalogo.Controllers
         // POST: Pokemon/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Pokemon
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var pokemon = await _context.Pokemons.FindAsync(id);

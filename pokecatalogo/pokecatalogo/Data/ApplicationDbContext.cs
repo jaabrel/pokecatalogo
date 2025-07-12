@@ -70,11 +70,25 @@ public class ApplicationDbContext : IdentityDbContext
         //     .WithMany(h => h.PokemonHabilidades)
         //     .HasForeignKey(ph => ph.HabilidadeFk);
         //
-        // builder.Entity<PokemonHabilidade>()
-        //     .HasOne<Pokemon>(ph => ph.Pokemon)
-        //     .WithMany(p => p.PokemonHabilidades)
-        //     .HasForeignKey(ph => ph.PokemonFk);
+        builder.Entity<PokemonHabilidade>()
+            .HasOne(ph => ph.Pokemon)
+            .WithMany(p => p.PokemonHabilidades)
+            .HasForeignKey(ph => ph.PokemonFk)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.Entity<PokemonHabilidade>()
+            .HasOne(ph => ph.Habilidade)
+            .WithMany()
+            .HasForeignKey(ph => ph.HabilidadeFk)
+            .OnDelete(DeleteBehavior.Restrict);
         //
+        // builder.Entity<PokemonAtaque>()
+        //     .HasOne<Pokemon>(pa => pa.Pokemon)
+        //     .WithMany(p => p.PokemonAtaques)
+        //     .HasForeignKey(pa => pa.PokemonFk);
+        // builder.Entity<PokemonAtaque>()
+        //     .HasOne<Ataque>(pa => pa.Ataque)
+        //     .WithMany(p => p.PokemonAtaques)
+        //     .HasForeignKey(pa => pa.AtaqueFk);
         builder.Entity<Evolucao>()
             .HasOne<Pokemon>(e => e.PokemonOrigem)
             .WithMany(p => p.FinalEvolucoes)

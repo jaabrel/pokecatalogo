@@ -24,7 +24,7 @@ namespace pokecatalogo.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(_config["Smtp:Host"], int.Parse(_config["Smtp:Port"]), true);
+                await client.ConnectAsync(_config["Smtp:Host"], int.Parse(_config["Smtp:Port"]), false);
                 await client.AuthenticateAsync(_config["Smtp:From"], _config["Smtp:Password"]);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);

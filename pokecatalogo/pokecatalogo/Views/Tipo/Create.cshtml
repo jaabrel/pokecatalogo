@@ -1,55 +1,50 @@
 @model pokecatalogo.Models.Tipo
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Novo Tipo";
 }
 
-<h1>Create</h1>
-
-<h4>Tipo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <select asp-for="Nome" class="form-control"></select>
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cor" class="control-label"></label>
-                <input asp-for="Cor" class="form-control" />
-                <span asp-validation-for="Cor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fraquezas" class="control-label"></label>
-                <select asp-for="Fraquezas" class="form-control"></select>
-                <span asp-validation-for="Fraquezas" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Resistências" class="control-label"></label>
-                <select asp-for="Resistências" class="form-control"></select>
-                <span asp-validation-for="Resistências" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Imunidades" class="control-label"></label>
-                <select asp-for="Imunidades" class="form-control"></select>
-                <span asp-validation-for="Imunidades" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Efetivo" class="control-label"></label>
-                <select asp-for="Efetivo" class="form-control"></select>
-                <span asp-validation-for="Efetivo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="d-flex justify-content-center align-items-center min-vh-75">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 480px; width: 100%;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4 fw-bold">Novo Tipo</h2>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="Nome" class="form-label fw-semibold"></label>
+                    <input asp-for="Nome" class="form-control rounded-pill" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Cor" class="form-label fw-semibold"></label>
+                    <input asp-for="Cor" class="form-control rounded-pill" />
+                    <span asp-validation-for="Cor" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Fraquezas" class="form-label fw-semibold"></label>
+                    <input asp-for="Fraquezas" class="form-control rounded-pill" />
+                    <span asp-validation-for="Fraquezas" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Resistências" class="form-label fw-semibold"></label>
+                    <input asp-for="Resistências" class="form-control rounded-pill" />
+                    <span asp-validation-for="Resistências" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Imunidades" class="form-label fw-semibold"></label>
+                    <input asp-for="Imunidades" class="form-control rounded-pill" />
+                    <span asp-validation-for="Imunidades" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Efetivo" class="form-label fw-semibold"></label>
+                    <input asp-for="Efetivo" class="form-control rounded-pill" />
+                    <span asp-validation-for="Efetivo" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between gap-2">
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4 fw-bold">Criar</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

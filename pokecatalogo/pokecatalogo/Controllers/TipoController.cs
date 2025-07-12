@@ -5,18 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using pokecatalogo.Data;
 using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
+    [Authorize] // Require authentication for all actions
     public class TipoController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public TipoController(ApplicationDbContext context)
+        public TipoController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Tipo
@@ -44,16 +49,16 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Tipo/Create
+        [Authorize(Roles = "Administrador")] // Only administrators can create Tipo
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Tipo/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can create Tipo
         public async Task<IActionResult> Create([Bind("Id,Nome,Cor,Fraquezas,Resistências,Imunidades,Efetivo")] Tipo tipo)
         {
             if (ModelState.IsValid)
@@ -66,6 +71,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Tipo/Edit/5
+        [Authorize(Roles = "Administrador")] // Only administrators can edit Tipo
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,10 +88,9 @@ namespace pokecatalogo.Controllers
         }
 
         // POST: Tipo/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can edit Tipo
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cor,Fraquezas,Resistências,Imunidades,Efetivo")] Tipo tipo)
         {
             if (id != tipo.Id)
@@ -117,6 +122,7 @@ namespace pokecatalogo.Controllers
         }
 
         // GET: Tipo/Delete/5
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Tipo
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace pokecatalogo.Controllers
         // POST: Tipo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Tipo
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tipo = await _context.Tipos.FindAsync(id);

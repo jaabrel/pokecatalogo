@@ -5,18 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using pokecatalogo.Data;
 using pokecatalogo.Models;
 
 namespace pokecatalogo.Controllers
 {
+    [Authorize] // Require authentication for all actions
     public class UtilizadoresController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public UtilizadoresController(ApplicationDbContext context)
+        public UtilizadoresController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Utilizadores
@@ -50,11 +55,9 @@ namespace pokecatalogo.Controllers
         }
 
         // POST: Utilizadores/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Email,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Create([Bind("Id,Nome")] Utilizadores utilizadores)
         {
             if (ModelState.IsValid)
             {
@@ -78,19 +81,30 @@ namespace pokecatalogo.Controllers
             {
                 return NotFound();
             }
+
+            // Check if user is authorized to edit this profile
+            if (!await IsUserAuthorizedToEditAsync(utilizadores))
+            {
+                return Forbid();
+            }
+            
             return View(utilizadores);
         }
 
         // POST: Utilizadores/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Email,IdentityUserName")] Utilizadores utilizadores)
+        public async Task<IActionResult> Edit([FromRoute]int id, [Bind("Id,Nome")] Utilizadores utilizadores)
         {
             if (id != utilizadores.Id)
             {
                 return NotFound();
+            }
+
+            // Check if user is authorized to edit this profile
+            if (!await IsUserAuthorizedToEditAsync(utilizadores))
+            {
+                return Forbid();
             }
 
             if (ModelState.IsValid)
@@ -131,6 +145,12 @@ namespace pokecatalogo.Controllers
                 return NotFound();
             }
 
+            // Check if user is authorized to delete this profile
+            if (!await IsUserAuthorizedToEditAsync(utilizadores))
+            {
+                return Forbid();
+            }
+            
             return View(utilizadores);
         }
 
@@ -142,6 +162,12 @@ namespace pokecatalogo.Controllers
             var utilizadores = await _context.Utilizadores.FindAsync(id);
             if (utilizadores != null)
             {
+                // Check if user is authorized to delete this profile
+                if (!await IsUserAuthorizedToEditAsync(utilizadores))
+                {
+                    return Forbid();
+                }
+                
                 _context.Utilizadores.Remove(utilizadores);
             }
 
@@ -152,6 +178,29 @@ namespace pokecatalogo.Controllers
         private bool UtilizadoresExists(int id)
         {
             return _context.Utilizadores.Any(e => e.Id == id);
+        }
+
+        // Helper method to check if current user can edit a specific user profile
+        private async Task<bool> IsUserAuthorizedToEditAsync(Utilizadores targetUser)
+        {
+            // Get current logged-in user
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return false;
+            }
+
+            // Find the Utilizadores record for the current logged-in user
+            var currentUtilizador = await _context.Utilizadores
+                .FirstOrDefaultAsync(u => u.IdentityUserName == currentUser.UserName);
+
+            if (currentUtilizador == null)
+            {
+                return false;
+            }
+
+            // User can only edit their own profile
+            return currentUtilizador.Id == targetUser.Id;
         }
     }
 }
