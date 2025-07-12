@@ -25,6 +25,8 @@ public class Pokemon
 
     public string Imagem { get; set; }
     
+    public string Descricao { get; set; }
+    
     public ICollection<PokemonAtaque> PokemonAtaques { get; set; }
     
     public ICollection<PokemonHabilidade> PokemonHabilidades { get; set; }

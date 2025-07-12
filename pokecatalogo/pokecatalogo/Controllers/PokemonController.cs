@@ -176,7 +176,8 @@ namespace pokecatalogo.Controllers
         {
             if (string.IsNullOrWhiteSpace(nome))
                 return NotFound();
-            var pokemon = await _context.Pokemons.FirstOrDefaultAsync(p => p.Nome.ToLower() == nome.ToLower());
+            var nomeNormalizado = nome.Trim().ToLower();
+            var pokemon = await _context.Pokemons.FirstOrDefaultAsync(p => p.Nome.ToLower() == nomeNormalizado);
             if (pokemon == null)
                 return NotFound();
             return RedirectToAction("Details", new { id = pokemon.Id });
