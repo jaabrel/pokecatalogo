@@ -79,6 +79,7 @@ namespace pokecatalogo.Controllers.api
         /// <response code="201">Returns the newly created Ataque</response>
         /// <response code="400">If the TipoFk does not exist or model is invalid</response>
         [HttpPost]
+        [Authorize(Roles = "Administrador")] // Only administrators can create Ataque
         public async Task<ActionResult<AtaqueDto>> Create([FromBody] AtaqueDto dto)
         {
             if (!ModelState.IsValid)
@@ -110,6 +111,7 @@ namespace pokecatalogo.Controllers.api
         /// <param name="dto">AtaqueDto with updated data.</param>
         /// <returns>No content if successful; 404 or 400 otherwise.</returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")] // Only administrators can update Ataque
         public async Task<IActionResult> Update(int id, [FromBody] AtaqueDto dto)
         {
             if (id != dto.Id)
@@ -141,6 +143,7 @@ namespace pokecatalogo.Controllers.api
         /// <param name="id">Ataque ID.</param>
         /// <returns>No content if successful; 404 otherwise.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Ataque
         public async Task<IActionResult> Delete(int id)
         {
             var ataque = await _context.Ataques.FindAsync(id);

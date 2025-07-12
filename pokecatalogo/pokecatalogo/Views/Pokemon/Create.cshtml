@@ -1,65 +1,64 @@
 @model pokecatalogo.Models.Pokemon
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Criar Pokémon";
 }
 
-<h1>Create</h1>
-
-@if (Model != null && Model.PokeApiId > 0)
-{
-    <img src="@Model.ImagemUrl" alt="@Model.Nome" class="img-thumbnail" style="max-height: 150px; max-width: 150px;" />
-}
-
-<h4>Pokemon</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+                <h2 class="fw-bold mb-3 text-center">Criar Novo Pokémon</h2>
+                @if (Model != null && Model.PokeApiId > 0)
+                {
+                    <div class="d-flex justify-content-center mb-3">
+                        <img src="@Model.ImagemUrl" alt="@Model.Nome" style="width: 100px; height: 100px; object-fit: contain; background: #fff; border-radius: 50%; border: 3px solid #FF0000; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
+                    </div>
+                }
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div class="mb-3">
+                        <label asp-for="Nome" class="form-label fw-semibold"></label>
+                        <input asp-for="Nome" class="form-control rounded-pill" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DescricaoPokedex" class="form-label fw-semibold"></label>
+                        <input asp-for="DescricaoPokedex" class="form-control rounded-pill" />
+                        <span asp-validation-for="DescricaoPokedex" class="text-danger"></span>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6 mb-3">
+                            <label asp-for="Altura" class="form-label fw-semibold"></label>
+                            <input asp-for="Altura" class="form-control rounded-pill" />
+                            <span asp-validation-for="Altura" class="text-danger"></span>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label asp-for="Peso" class="form-label fw-semibold"></label>
+                            <input asp-for="Peso" class="form-control rounded-pill" />
+                            <span asp-validation-for="Peso" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Especie" class="form-label fw-semibold"></label>
+                        <input asp-for="Especie" class="form-control rounded-pill" />
+                        <span asp-validation-for="Especie" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tipos</label>
+                        <select name="Tipos" class="form-select rounded-pill mb-2" asp-items="ViewBag.Tipo1Fk"></select>
+                        <select name="Tipos" class="form-select rounded-pill" asp-items="ViewBag.Tipo1Fk"></select>
+                    </div>
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <input type="submit" value="Criar" class="btn btn-danger btn-lg rounded-pill px-5 shadow" />
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancelar</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="DescricaoPokedex" class="control-label"></label>
-                <input asp-for="DescricaoPokedex" class="form-control" />
-                <span asp-validation-for="DescricaoPokedex" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Altura" class="control-label"></label>
-                <input asp-for="Altura" class="form-control" />
-                <span asp-validation-for="Altura" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Peso" class="control-label"></label>
-                <input asp-for="Peso" class="form-control" />
-                <span asp-validation-for="Peso" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Especie" class="control-label"></label>
-                <input asp-for="Especie" class="form-control" />
-                <span asp-validation-for="Especie" class="text-danger"></span>
-            </div>
-            
-
-            <div class="form-group">
-                <label asp-for="Tipos" class="control-label"></label>
-                <select name="Tipos" class ="form-control" asp-items="ViewBag.Tipo1Fk"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tipos" class="control-label"></label>
-                <select name="Tipos" class ="form-control" asp-items="ViewBag.Tipo1Fk"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 

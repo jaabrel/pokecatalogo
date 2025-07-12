@@ -1,66 +1,61 @@
 @model pokecatalogo.Models.Ataque
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Ataque";
 }
 
-<h1>Edit</h1>
-
-<h4>Ataque</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Categoria" class="control-label"></label>
-                <input asp-for="Categoria" class="form-control" />
-                <span asp-validation-for="Categoria" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Dano" class="control-label"></label>
-                <input asp-for="Dano" class="form-control" />
-                <span asp-validation-for="Dano" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Precisao" class="control-label"></label>
-                <input asp-for="Precisao" class="form-control" />
-                <span asp-validation-for="Precisao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PP" class="control-label"></label>
-                <input asp-for="PP" class="form-control" />
-                <span asp-validation-for="PP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Prioridade" class="control-label"></label>
-                <input asp-for="Prioridade" class="form-control" />
-                <span asp-validation-for="Prioridade" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoFk" class="control-label"></label>
-                <select asp-for="TipoFk" class="form-control" asp-items="ViewBag.TipoFk"></select>
-                <span asp-validation-for="TipoFk" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="d-flex justify-content-center align-items-center min-vh-75">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 480px; width: 100%;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4 fw-bold">Editar Ataque</h2>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label asp-for="Nome" class="form-label fw-semibold"></label>
+                    <input asp-for="Nome" class="form-control rounded-pill" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Categoria" class="form-label fw-semibold"></label>
+                    <input asp-for="Categoria" class="form-control rounded-pill" />
+                    <span asp-validation-for="Categoria" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Descricao" class="form-label fw-semibold"></label>
+                    <textarea asp-for="Descricao" class="form-control rounded-4" rows="3"></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Dano" class="form-label fw-semibold"></label>
+                    <input asp-for="Dano" class="form-control rounded-pill" />
+                    <span asp-validation-for="Dano" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Precisao" class="form-label fw-semibold"></label>
+                    <input asp-for="Precisao" class="form-control rounded-pill" />
+                    <span asp-validation-for="Precisao" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="PP" class="form-label fw-semibold"></label>
+                    <input asp-for="PP" class="form-control rounded-pill" />
+                    <span asp-validation-for="PP" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Prioridade" class="form-label fw-semibold"></label>
+                    <input asp-for="Prioridade" class="form-control rounded-pill" />
+                    <span asp-validation-for="Prioridade" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="TipoFk" class="form-label fw-semibold"></label>
+                    <select asp-for="TipoFk" class="form-select rounded-pill" asp-items="ViewBag.TipoFk"></select>
+                    <span asp-validation-for="TipoFk" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between gap-2">
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-warning rounded-pill px-4 fw-bold">Guardar</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

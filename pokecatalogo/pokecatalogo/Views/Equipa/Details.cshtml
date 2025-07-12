@@ -1,66 +1,40 @@
-@model pokecatalogo.Models.Ataque
-
+@model Equipa
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes da Equipa";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Ataque</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categoria)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categoria)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dano)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Dano)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Precisao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Precisao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PP)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PP)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Prioridade)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Prioridade)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tipo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tipo.Cor)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="d-flex justify-content-center align-items-center min-vh-75">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 480px; width: 100%;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4 fw-bold">@Model.NomeEquipa</h2>
+            <div class="mb-3 text-center">
+                <span class="badge bg-secondary">Criada em: @Model.DataCriacao.ToShortDateString()</span>
+            </div>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item d-flex justify-content-between"><span class="fw-semibold">Descrição:</span> <span>@Model.Descricao</span></li>
+                <li class="list-group-item d-flex flex-column">
+                    <span class="fw-semibold mb-1">Pokémons na equipa:</span>
+                    @if (Model.Pokemons != null && Model.Pokemons.Any()) {
+                        <ul class="list-unstyled mb-0">
+                        @foreach (var pe in Model.Pokemons.OrderBy(p => p.PosicaoNaEquipa)) {
+                            <li>
+                                <span class="badge bg-primary rounded-pill">@pe.Pokemon?.Nome ?? "?"</span>
+                                <span class="text-muted small">(Nível @pe.Nivel)</span>
+                                @if (!string.IsNullOrEmpty(pe.Alcunha)) {
+                                    <span class="text-muted small">- "@pe.Alcunha"</span>
+                                }
+                            </li>
+                        }
+                        </ul>
+                    } else {
+                        <span class="text-muted">Nenhum Pokémon na equipa</span>
+                    }
+                </li>
+            </ul>
+            <div class="d-flex justify-content-between gap-2">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning rounded-pill px-4">Editar</a>
+                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Voltar</a>
+            </div>
+        </div>
+    </div>
 </div>

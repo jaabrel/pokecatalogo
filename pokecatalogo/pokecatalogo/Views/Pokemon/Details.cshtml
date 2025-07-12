@@ -1,61 +1,56 @@
 @model pokecatalogo.Models.Pokemon
-
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Pokémon";
 }
 
-<h1>Details</h1>
-
-<div>
-    <img src="@Model.ImagemUrl" alt="@Model.Nome" class="img-thumbnail" style="max-height: 150px; max-width: 150px;" />
-    <h4>Pokemon</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DescricaoPokedex)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DescricaoPokedex)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Altura)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Altura)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Peso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Peso)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Especie)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Especie)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tipos)
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                foreach (var tipo in Model.Tipos)
-                {
-                    <p>@(tipo.Cor + "-" + tipo.Nome)</p>
-                }
-
-            }
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+                <div class="d-flex flex-column align-items-center">
+                    <img src="@Model.ImagemUrl" alt="@Model.Nome" class="mb-3" style="width: 140px; height: 140px; object-fit: contain; background: #fff; border-radius: 50%; border: 4px solid #FF0000; box-shadow: 0 4px 16px rgba(0,0,0,0.10);" />
+                    <h2 class="fw-bold mb-1">@Model.Nome</h2>
+                    <div class="mb-2">
+                        @foreach (var tipo in Model.Tipos)
+                        {
+                            <span class="badge rounded-pill me-1" style="background:@tipo.Cor; color:#fff; font-size:1.1em;">@tipo.Nome</span>
+                        }
+                    </div>
+                    <div class="text-muted mb-2">@Model.Especie</div>
+                    <p class="text-center mb-3">@Model.DescricaoPokedex</p>
+                    <div class="row w-100 mb-3">
+                        <div class="col-6 text-center">
+                            <span class="fw-semibold">Altura:</span> @Model.Altura m
+                        </div>
+                        <div class="col-6 text-center">
+                            <span class="fw-semibold">Peso:</span> @Model.Peso kg
+                        </div>
+                    </div>
+                    <div class="w-100 mb-3">
+                        <h5 class="fw-bold">Estatísticas Base</h5>
+                        @if (Model.PokemonStats != null && Model.PokemonStats.Any())
+                        {
+                            var stats = Model.PokemonStats.First();
+                            <div class="row g-1">
+                                <div class="col-6">HP</div><div class="col-6"><span class="badge bg-success">@stats.Hp</span></div>
+                                <div class="col-6">Ataque</div><div class="col-6"><span class="badge bg-danger">@stats.Atk</span></div>
+                                <div class="col-6">Defesa</div><div class="col-6"><span class="badge bg-primary">@stats.Def</span></div>
+                                <div class="col-6">Atq. Esp.</div><div class="col-6"><span class="badge bg-warning text-dark">@stats.SpA</span></div>
+                                <div class="col-6">Def. Esp.</div><div class="col-6"><span class="badge bg-info text-dark">@stats.SpD</span></div>
+                                <div class="col-6">Velocidade</div><div class="col-6"><span class="badge bg-secondary">@stats.Speed</span></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-muted">Sem estatísticas disponíveis.</div>
+                        }
+                    </div>
+                    <div class="d-flex justify-content-center gap-3 mt-3">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning rounded-pill px-4">Editar</a>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Voltar à Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

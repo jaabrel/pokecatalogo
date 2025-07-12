@@ -5,7 +5,7 @@ namespace pokecatalogo.Data.DbInitializerDev;
 
 public class DbInitializer
 {
-    internal static async void Initialize(ApplicationDbContext dbContext)
+    internal static async Task Initialize(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
         dbContext.Database.EnsureCreated();
@@ -221,7 +221,7 @@ public class DbInitializer
         // 6. Seed Utilizadores (no Id)
         if (!dbContext.Utilizadores.Any())
         {
-            dbContext.Utilizadores.Add(new Utilizadores { Nome = "Ash Ketchum", Email = "ash@pallet.com", IdentityUserName = "ashk" });
+            dbContext.Utilizadores.Add(new Utilizadores { Nome = "Ash Ketchum", IdentityUserName = "ashk" });
             dbContext.SaveChanges();
         }
         var userAshVar = dbContext.Utilizadores.First(u => u.Nome == "Ash Ketchum");
@@ -373,8 +373,8 @@ public class DbInitializer
                 new Ataque { Nome = "Vine Whip", Categoria = "Físico", Descricao = "Ataca com vinhas finas.", Dano = 45, Precisao = 100, PP = 25, Prioridade = 0, TipoFk = tipoErva.Id },
                 new Ataque { Nome = "String Shot", Categoria = "Status", Descricao = "Dispara seda para baixar a velocidade.", Dano = 0, Precisao = 95, PP = 40, Prioridade = 0, TipoFk = tipoInseto.Id }
             );
-            dbContext.SaveChanges();
-        }
+                dbContext.SaveChanges();
+            }
         var waterGunVar = dbContext.Ataques.First(a => a.Nome == "Water Gun");
         var vineWhipVar = dbContext.Ataques.First(a => a.Nome == "Vine Whip");
         var stringShotVar = dbContext.Ataques.First(a => a.Nome == "String Shot");
@@ -402,5 +402,53 @@ public class DbInitializer
             );
             dbContext.SaveChanges();
         }
+
+        // --- ADMIN ROLE SEEDING ---
+        const string adminRole = "Administrador";
+        const string adminEmail = "admin@pokecatalogo.com";
+        const string adminPassword = "Admin123!";
+        
+        // Create role if it doesn't exist
+        if (!await roleManager.RoleExistsAsync(adminRole))
+        {
+            await roleManager.CreateAsync(new IdentityRole(adminRole));
+        }
+        
+        // Create admin user if it doesn't exist
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        if (adminUser == null)
+        {
+            adminUser = new IdentityUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                EmailConfirmed = true
+            };
+            
+            var result = await userManager.CreateAsync(adminUser, adminPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, adminRole);
+                
+                // Create corresponding Utilizadores record
+                var adminUtilizador = new Utilizadores
+                {
+                    Nome = "Administrador",
+                    IdentityUserName = adminUser.UserName
+                };
+                dbContext.Utilizadores.Add(adminUtilizador);
+                dbContext.SaveChanges();
+            }
+        }
+        else if (!await userManager.IsInRoleAsync(adminUser, adminRole))
+        {
+            // If admin user exists but doesn't have admin role, add it
+            await userManager.AddToRoleAsync(adminUser, adminRole);
+        }
+    }
+
+    public static void Initialize(ApplicationDbContext dbContext)
+    {
+        throw new NotImplementedException();
     }
 }

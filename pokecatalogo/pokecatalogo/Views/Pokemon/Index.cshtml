@@ -1,77 +1,44 @@
 @model IEnumerable<pokecatalogo.Models.Pokemon>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pokémons";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5 fw-bold">Pokémons</h1>
+    <a asp-action="Create" class="btn btn-danger btn-lg rounded-pill shadow">+ Novo Pokémon</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome).
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescricaoPokedex)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Altura)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Peso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Especie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tipos.First().Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tipos.Last().Nome)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescricaoPokedex)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Altura)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Peso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Especie)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipos.First().Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipos.Last().Nome)
-            </td>
-            <td>
-                <img src="@item.ImagemUrl"
-                     alt="@item.Nome"
-                     class="img-thumbnail"
-                     style="max-height: 100px; max-width: 100px;" />
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-4 pokemon-card">
+            <div class="card-body d-flex flex-column align-items-center p-4">
+                <img src="@item.ImagemUrl" alt="@item.Nome" class="mb-3" style="width: 96px; height: 96px; object-fit: contain; background: #fff; border-radius: 50%; border: 3px solid #FF0000; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
+                <h5 class="card-title fw-bold text-center mb-1">@item.Nome</h5>
+                <div class="mb-2">
+                    @foreach (var tipo in item.Tipos) {
+                        <span class="badge rounded-pill me-1" style="background:@tipo.Cor; color:#fff; font-size:1em;">@tipo.Nome</span>
+                    }
+                </div>
+                <div class="text-muted mb-2">@item.Especie</div>
+                <p class="card-text text-center small mb-2" style="min-height: 48px;">@item.DescricaoPokedex?.Substring(0, Math.Min(item.DescricaoPokedex.Length, 70))@(item.DescricaoPokedex?.Length > 70 ? "..." : "")</p>
+                <div class="d-flex justify-content-center gap-2 mt-auto">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm rounded-pill px-3">Detalhes</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm rounded-pill px-3">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm rounded-pill px-3">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+</div>
+
+<style>
+.pokemon-card {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.pokemon-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(255,0,0,0.10), 0 2px 8px rgba(0,0,0,0.10);
+}
+</style>

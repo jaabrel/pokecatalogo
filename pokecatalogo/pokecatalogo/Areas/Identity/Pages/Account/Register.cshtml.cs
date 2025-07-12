@@ -104,7 +104,9 @@ namespace pokecatalogo.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             
-            public Utilizadores Utilizador { get; set; }
+            [Required]
+            [Display(Name = "Nome")]
+            public string Nome { get; set; }
         }
 
 
@@ -129,44 +131,21 @@ namespace pokecatalogo.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    Input.Utilizador.IdentityUserName = user.UserName;
-                    _context.Add(Input.Utilizador);
+                    // Create the Utilizadores record
+                    var utilizador = new Utilizadores
+                    {
+                        Nome = Input.Nome,
+                        IdentityUserName = user.UserName
+                    };
+                    
+                    _context.Add(utilizador);
                     _context.SaveChanges();
                     
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Bem-vindo ao Pokécatálogo! Confirme o seu email",
-                        $@"<div style='font-family: Arial, sans-serif; background: #f8f8f8; padding: 30px;'>
-                            <div style='max-width: 500px; margin: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #e0e0e0; padding: 30px;'>
-                                <h2 style='color: #e3350d; text-align: center;'>Bem-vindo ao Pokécatálogo!</h2>
-                                <p>Olá, treinador!</p>
-                                <p>Obrigado por se registar no <b>Pokécatálogo</b>. Para começar a explorar e capturar todos os Pokémon, por favor confirme o seu email clicando no botão abaixo:</p>
-                                <div style='text-align: center; margin: 30px 0;'>
-                                    <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' style='background: #e3350d; color: #fff; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-size: 18px; font-weight: bold;'>Confirmar Email</a>
-                                </div>
-                                <p style='color: #888; font-size: 13px;'>Se não foi você que criou esta conta, pode ignorar este email.</p>
-                                <div style='text-align: center; margin-top: 30px;'>
-                                    <img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png' alt='Pikachu' style='height: 60px;' />
-                                </div>
-                            </div>
-                        </div>");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    _logger.LogInformation("User created a new account with password.");
+                    
+                    // Automatically sign in the user after successful registration
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
                 {

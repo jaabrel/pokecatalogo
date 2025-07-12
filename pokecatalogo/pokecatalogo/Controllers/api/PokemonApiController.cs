@@ -70,6 +70,7 @@ namespace pokecatalogo.Controllers.api
         /// Creates a new Pokémon.
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Administrador")] // Only administrators can create Pokemon
         public async Task<ActionResult<PokemonDto>> Create([FromBody] PokemonDto dto)
         {
             if (!ModelState.IsValid)
@@ -99,6 +100,7 @@ namespace pokecatalogo.Controllers.api
         /// Updates an existing Pokémon.
         /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")] // Only administrators can update Pokemon
         public async Task<IActionResult> Update(int id, [FromBody] PokemonDto dto)
         {
             if (id != dto.Id)
@@ -131,6 +133,7 @@ namespace pokecatalogo.Controllers.api
         /// Deletes a Pokémon by its ID.
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Pokemon
         public async Task<IActionResult> Delete(int id)
         {
             var pokemon = await _context.Pokemons.FindAsync(id);

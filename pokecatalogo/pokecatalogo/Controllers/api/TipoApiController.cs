@@ -60,6 +60,7 @@ namespace pokecatalogo.Controllers.api
         /// Creates a new Tipo.
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Administrador")] // Only administrators can create Tipo
         public async Task<ActionResult<TipoDto>> Create([FromBody] TipoDto dto)
         {
             if (!ModelState.IsValid)
@@ -79,6 +80,7 @@ namespace pokecatalogo.Controllers.api
         /// Updates an existing Tipo.
         /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")] // Only administrators can update Tipo
         public async Task<IActionResult> Update(int id, [FromBody] TipoDto dto)
         {
             if (id != dto.Id)
@@ -99,6 +101,7 @@ namespace pokecatalogo.Controllers.api
         /// Deletes a Tipo by its ID.
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")] // Only administrators can delete Tipo
         public async Task<IActionResult> Delete(int id)
         {
             var tipo = await _context.Tipos.FindAsync(id);

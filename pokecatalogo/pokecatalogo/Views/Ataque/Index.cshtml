@@ -1,77 +1,43 @@
 @model IEnumerable<pokecatalogo.Models.Ataque>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ataques";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5 fw-bold">Ataques</h1>
+    <a asp-action="Create" class="btn btn-danger btn-lg rounded-pill shadow">+ Novo Ataque</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categoria)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dano)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Precisao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prioridade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tipo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categoria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dano)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precisao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prioridade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo.Cor)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-4 ataque-card">
+            <div class="card-body d-flex flex-column align-items-center p-4">
+                <h5 class="card-title fw-bold text-center mb-1">@item.Nome</h5>
+                <div class="mb-2">
+                    <span class="badge rounded-pill me-1" style="background:@item.Tipo?.Cor ?? '#888'; color:#fff; font-size:1em;">@item.Tipo?.Nome</span>
+                    <span class="badge bg-secondary rounded-pill">@item.Categoria</span>
+                </div>
+                <div class="text-muted mb-2">Dano: <span class="fw-bold">@item.Dano</span> | Precisão: <span class="fw-bold">@item.Precisao</span></div>
+                <div class="mb-2">PP: <span class="fw-bold">@item.PP</span> | Prioridade: <span class="fw-bold">@item.Prioridade</span></div>
+                <p class="card-text text-center small mb-2" style="min-height: 48px;">@item.Descricao?.Substring(0, Math.Min(item.Descricao?.Length ?? 0, 70))@(item.Descricao?.Length > 70 ? "..." : "")</p>
+                <div class="d-flex justify-content-center gap-2 mt-auto">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm rounded-pill px-3">Detalhes</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm rounded-pill px-3">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm rounded-pill px-3">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+</div>
+
+<style>
+.ataque-card {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.ataque-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(255,0,0,0.10), 0 2px 8px rgba(0,0,0,0.10);
+}
+</style>
